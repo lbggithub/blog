@@ -1,0 +1,68 @@
+{
+	"passwordSecret": "xlBlogPassword",
+	"tokenSecret": "xlBlogToken",
+	"tokenExpiresIn": 2592000,
+	"tokenExpiresThreshold": 600,
+	"bindTokenToDevice": false,
+	"passwordErrorRetryTime": 3600,
+	"autoSetInviteCode": false,
+	"forceInviteCode": false,
+	"removePermissionAndRoleFromToken": false,
+	"app-plus": {
+		"tokenExpiresIn": 2592000,
+		"oauth": {
+			"weixin": {
+				"appid": "weixin appid",
+				"appsecret": "weixin appsecret"
+			},
+			"qq": {
+				"appid": "qq appid",
+				"appsecret": "qq appsecret"
+			},
+			"apple": {
+				"bundleId": "your bundleId"
+			}
+		}
+	},
+	"mp-weixin": {
+		"tokenExpiresIn": 2592000,
+		"oauth": {
+			"weixin": {
+				"appid": "weixin appid",
+				"appsecret": "weixin appsecret"
+			}
+		}
+	},
+	"mp-qq": {
+		"tokenExpiresIn": 2592000,
+		"oauth": {
+			"qq": {
+				"appid": "qq appid",
+				"appsecret": "qq appsecret"
+			}
+		}
+	},
+	"mp-alipay": {
+		"tokenExpiresIn": 2592000,
+		"oauth": {
+			"alipay": {
+				"appid": "alipay appid",
+				"privateKey": "alipay privateKey",
+				"keyType": "PKCS8"
+			}
+		}
+	},
+	"service": {
+		"sms": {
+			"name": "your app name",
+			"codeExpiresIn": 180,
+			"smsKey": "your sms key",
+			"smsSecret": "your sms secret"
+		},
+		"univerify": {
+			"appid": "your appid",
+			"apiKey": "your apiKey",
+			"apiSecret": "your apiSecret"
+		}
+	}
+}

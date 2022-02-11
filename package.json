@@ -1,0 +1,18 @@
+{
+	"name": "blog-cloud",
+	"version": "1.0.0",
+	"description": "blog-unicloud",
+	"main": "index.js",
+	"author": "西梁",
+	"license": "MIT",
+	"devDependencies": {
+		"@vicons/fa": "^0.12.0",
+		"naive-ui": "^2.25.1",
+		"vfonts": "^0.0.3"
+	},
+	"dependencies": {
+		"dayjs": "^1.10.7",
+		"github-markdown-css": "^5.1.0",
+		"markdown-it": "^12.3.2"
+	}
+}

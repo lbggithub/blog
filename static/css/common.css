@@ -1,0 +1,81 @@
+/* 清除默认样式，使用怪异模型 */
+div,
+view,
+text,
+span,
+button,
+swiper,
+scroll-view,
+navigator,
+image,
+swiper-item {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+image {
+	display: block;
+}
+
+.nostyle {
+	color: inherit;
+	border: none;
+	background: none;
+	font-size: inherit;
+	margin: 0;
+	padding: 0;
+	border-radius: 0;
+
+	&::after {
+		border: none;
+		border-radius: 0;
+	}
+}
+
+/* 苹果刘海屏底部安全区域 */
+.safe-bottom {
+	padding-bottom: constant(safe-area-inset-bottom);
+	padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* 文字行数 */
+.line-1 {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.line-2 {
+	-webkit-line-clamp: 2;
+}
+
+.line-3 {
+	-webkit-line-clamp: 3;
+}
+
+.line-2,
+.line-3 {
+	overflow: hidden;
+	word-break: break-all;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+/* flex 居中 */
+.flex-sb,
+.flex-d,
+.flex {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.flex-d {
+	flex-direction: column;
+}
+
+.flex-sb {
+	justify-content: space-between;
+}
