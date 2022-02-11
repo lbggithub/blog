@@ -59,7 +59,7 @@
 		return notInArr
 	}
 
-	// 从库中获取到所有标签，做个简单的输入提示
+	// 从库中获取到所有标签，做个简单的输入提示（总觉得有更好的方式，嫌太麻烦了，先不弄）
 	const options = computed(() => {
 		if (inputValue.value) {
 			let data = []
