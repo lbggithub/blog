@@ -30,9 +30,9 @@ function setClipboardData(content) {
 	}
 	if (document.execCommand('copy')) {
 		document.execCommand('copy')
-		toast('内容已复制')
+		toast.success('内容已复制')
 	} else {
-		toast('该浏览器不支持', 'error')
+		toast.error('该浏览器不支持')
 	}
 	input.blur()
 	// #endif

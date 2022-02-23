@@ -1,25 +1,22 @@
 <template>
-	<div class="bg-upload">
+	<view class="bg-upload">
 		<!-- 上传按钮 -->
-		<n-button type="primary" @click="upload" :loading="loading">上传图片</n-button>
+		<el-button type="primary" @click="upload" :loading="loading">上传图片</el-button>
 		<!-- 进度弹窗 -->
-		<n-modal v-model:show="showModal">
-			<n-card style="width: 480px;" title="上传进度" :bordered="false" size="huge">
-				<div class="image-box flex-sb" v-for="image in images">
-					<n-image width="60" :src="image.path" />
-					<div class="progress">
-						<span class="image-name line-1">{{image.name}}</span>
-						<n-progress type="line" status="success" :percentage="image.progress" />
-					</div>
-				</div>
-			</n-card>
-		</n-modal>
-	</div>
+		<el-dialog v-model="showModal" :width="480" title="上传进度" center destroy-on-close>
+			<view class="upload-image-box" v-for="image in images">
+				<el-image style="width: 60px;" :src="image.path" />
+				<view class="upload-image-progress">
+					<span class="image-name line-1">{{image.name}}</span>
+					<el-progress :percentage="image.progress" status="success" />
+				</view>
+			</view>
+		</el-dialog>
+	</view>
 </template>
 
 <script setup>
 	import { ref } from 'vue'
-	import { NButton, NModal, NProgress, NImage, NCard } from 'naive-ui'
 	import call from '@/utils/call.js'
 	import toast from '@/utils/toast.js'
 
@@ -72,11 +69,11 @@
 				call('addAttachments', attachments).then(res => {
 					showModal.value = false
 					emit('success')
-					toast('上传成功', 'success')
+					toast.success('上传成功')
 				})
 			},
 			fail() {
-				toast('上传失败', 'error')
+				toast.error('上传失败')
 			},
 			complete() {
 				loading.value = false
@@ -86,19 +83,19 @@
 </script>
 
 <style lang="scss">
-	.image-box {
+	.upload-image-box {
+		display: flex;
+		align-items: center;
 		margin-bottom: 12px;
 
-		.progress {
+		.upload-image-progress {
 			flex-grow: 1;
 			display: flex;
 			flex-direction: column;
-			justify-content: space-between;
-			height: 50px;
 			margin-left: 20px;
 
 			.image-name {
-				width: 320px;
+				width: 300px;
 			}
 		}
 	}

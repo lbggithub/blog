@@ -20,12 +20,14 @@ exports.main = async (event, context) => {
 		password: event.password,
 		thumbnail: event.thumbnail,
 		content: event.content,
-		html: event.html
+		html: event.html,
+		updated_date: new Date().getTime(),
+		is_del: false,
 	}
 
 	let res = null
-	if (event.id) {
-		res = await db.doc(event.id).update(data)
+	if (event._id) {
+		res = await db.doc(event._id).update(data)
 	} else {
 		res = await db.add(data)
 	}

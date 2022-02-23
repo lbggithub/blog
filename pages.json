@@ -2,28 +2,72 @@
 	"easycom": {
 		"autoscan": true
 	},
-	"pages": [
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		}, {
-			"path": "pages/login/login",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		}, {
-			"path": "pages/admin/admin",
-			"style": {
-				"navigationStyle": "custom"
-			}
+	"pages": [{
+		"path": "pages/index/index",
+		"style": {
+			"topWindow": false,
+			"leftWindow": false,
+			"navigationStyle": "custom"
 		}
-	],
+	}, {
+		"path": "pages/error/404",
+		"style": {
+			"topWindow": false,
+			"leftWindow": false,
+			"navigationStyle": "custom"
+		}
+	}],
+	"subPackages": [{
+		"root": "pages/admin",
+		"pages": [{
+			"path": "login",
+			"style": {
+				"topWindow": false,
+				"leftWindow": false,
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "index",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "posts",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "writing",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}]
+	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "西梁 Blog",
+		"navigationBarTitleText": "西梁的 Blog",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	"topWindow": {
+		"path": "windows/topWindow",
+		"style": {
+			"height": "60px"
+		},
+		"matchMedia": {
+			"minWidth": 0
+		}
+	},
+	"leftWindow": {
+		"path": "windows/leftWindow",
+		"style": {
+			"width": "240px"
+		}
+	},
+	"rightWindow": {
+		"path": "windows/rightWindow",
+		"style": {
+			"width": "0"
+		}
 	}
 }

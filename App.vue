@@ -1,33 +1,22 @@
 <script>
-	//#ifdef H5
 	import { useStore } from 'vuex'
-	//#endif
+	import authToken from '@/utils/authToken.js'
 	export default {
 		onLaunch() {
-			//#ifdef H5
-			const store = useStore()
-			const getTheme = matches => {
-				if (matches) {
-					store.commit('putTheme', 'light')
-				} else {
-					store.commit('putTheme', 'dark')
-				}
-			}
-			// 获取系统主题
-			const themeMedia = window.matchMedia('(prefers-color-scheme: light)')
-			// 监听系统主题变化
-			themeMedia.addListener(e => {
-				getTheme(e.matches)
+			// 每次打开应用，检查当前页面是否需要登陆
+			authToken()
+		},
+		onPageNotFound() {
+			// 不存在的路由，跳转到404
+			uni.redirectTo({
+				url: '/pages/error/404'
 			})
-			const theme = uni.getStorageSync('theme')
-			if (!theme) {
-				getTheme(themeMedia.matches)
-			}
-			//#endif
-		}
+		},
 	}
 </script>
 
 <style>
 	@import 'static/css/common.css';
+	/* Element Plus 额外提供了一系列类名，用于在某些条件下隐藏元素 */
+	@import 'element-plus/theme-chalk/display.css';
 </style>

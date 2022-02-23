@@ -1,35 +1,41 @@
-/* 清除默认样式，使用怪异模型 */
+/* start--清除默认样式，使用怪异模型--start */
 div,
 view,
 text,
 span,
 button,
-swiper,
+textarea,
+input,
 scroll-view,
-navigator,
-image,
+swiper,
 swiper-item {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 }
 
-image {
-	display: block;
+/* 默认背景颜色 */
+page {
+	background-color: #f8f8f8;
+	padding: 15px;
 }
 
-.nostyle {
-	color: inherit;
-	border: none;
-	background: none;
-	font-size: inherit;
-	margin: 0;
-	padding: 0;
-	border-radius: 0;
+/* 主容器 */
+.container {
+	/* 满高度（100vh） - 头部（60px） - page 的 padding (30px) */
+	height: calc(100vh - 90px);
+	padding: 15px;
+	border-radius: 5px;
+	background-color: #ffffff;
+}
 
-	&::after {
-		border: none;
-		border-radius: 0;
+/* 小屏幕下主容器占满 */
+@media screen and (max-width: 768px) {
+	page {
+		padding: 0;
+	}
+	.container {
+		height: calc(100vh - 60px);
 	}
 }
 
@@ -61,21 +67,4 @@ image {
 	text-overflow: ellipsis;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
-}
-
-/* flex 居中 */
-.flex-sb,
-.flex-d,
-.flex {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.flex-d {
-	flex-direction: column;
-}
-
-.flex-sb {
-	justify-content: space-between;
 }

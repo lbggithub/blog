@@ -1,43 +1,35 @@
 <template>
 	<view class="bg-editor">
-		<textarea v-model="input" class="editor-textarea" placeholder="在这里输入正文" maxlength="-1" />
-		<component :is="themeComponent">
-			<view v-html="compiledMarkdown"></view>
-		</component>
+		<textarea :modelValue="props.input" @update:modelValue="emit('update:input', $event)" class="editor-textarea" placeholder="在这里输入正文" maxlength="-1" />
+		<view v-html="compiledMarkdown" class="markdown-body"></view>
 	</view>
 </template>
 
 <script setup>
-	// 迫于找不到合适且兼容 uniapp 的，所以自己写了一个 markdown 编辑器（尽量不使用第三方的UI，方便别人直接使用）
+	// 迫于找不到合适且兼容 uniapp 的，所以自己写了一个 markdown 编辑器（我尽量不使用第三方的UI，方便直接使用）
 	import { defineAsyncComponent, ref, computed } from 'vue'
-	import { useStore } from 'vuex'
 	import markdownIt from 'markdown-it'
-	import 'github-markdown-css/github-markdown.css'
+	import 'github-markdown-css/github-markdown-light.css'
 
-	// 为了兼容黑夜模式
-	const store = useStore()
-	const themeComponent = computed(() => {
-		return store.state.theme === 'dark' ? defineAsyncComponent(() => import(`./github-markdown-dark.vue`)) : defineAsyncComponent(() => import(`./github-markdown-light.vue`))
+	// 双向绑定 v-model:input
+	const props = defineProps({
+		input: String
 	})
-	var md = new markdownIt().set({
-		breaks: true
-	})
-	const input = ref('')
+	const emit = defineEmits(['update:input'])
 
+	// 初始化 markdown-it
+	var md = new markdownIt().set()
+
+	// 实时获取 html 内容
 	const compiledMarkdown = computed(() => {
-		return md.render(input.value)
+		return md.render(props.input)
 	})
 
-	const getInutValue = () => {
-		return input.value
-	}
+	// 把获取 html 的方法暴露给父组件
 	const getHtml = () => {
 		return compiledMarkdown.value
 	}
-	const clear = () => {
-		input.value = ''
-	}
-	defineExpose({ getInutValue, getHtml, clear }) // 把获取输入值的方法暴露给父组件
+	defineExpose({ getHtml })
 </script>
 
 <style lang="scss">
@@ -49,14 +41,14 @@
 		.markdown-body {
 			width: 50%;
 			height: 70vh;
-			padding: 10px 20px;
+			padding: 10px;
 			border-radius: 2px;
 			box-sizing: content-box;
 		}
 
 		.editor-textarea {
-			border: 1px solid #999999;
-			font-size: 16px;
+			border: 1px solid #e5e7eb;
+			font-size: 14px;
 			line-height: 20px;
 		}
 

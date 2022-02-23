@@ -1,23 +1,16 @@
-function toast(title, icon = 'none', duration = 2000) {
-	uni.showToast({
-		title,
-		icon: icon || 'none',
-		duration: duration || 2000
-	})
-}
+const toast = {}
 
-toast.hide = () => {
-	uni.hideToast()
-}
-
-toast.loading = (title = '加载中') => {
-	uni.showLoading({
-		title
-	})
-}
-
-toast.hideLoading = () => {
-	uni.hideLoading()
-}
+const methods = ['success', 'warning', 'info', 'error']
+methods.forEach((item) => {
+	toast[item] = (msg) => {
+		uni.$emit('msg', {
+			type: 'ElMessage',
+			data: {
+				message: msg,
+				type: item
+			}
+		})
+	}
+})
 
 export default toast

@@ -1,5 +1,5 @@
 {
-    "name" : "blog",
+    "name" : "Blog",
     "appid" : "__UNI__8F09DD2",
     "description" : "",
     "versionName" : "1.0.0",
@@ -76,6 +76,7 @@
         },
         "sdkConfigs" : {
             "maps" : {}
-        }
+        },
+        "title" : "西梁的 Blog"
     }
 }

@@ -1,14 +1,10 @@
 <template>
-	<div class="">
-		posts
-	</div>
+	<bg-menu></bg-menu>
 </template>
 
 <script setup>
 
-
 </script>
 
-<style>
-
+<style lang="scss">
 </style>

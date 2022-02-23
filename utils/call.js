@@ -20,12 +20,12 @@ function call(name = '', data = {}) {
 				if (result.code === 0 || res.code === 0) {
 					resolve(result)
 				} else {
-					toast(result.msg)
+					toast.error(result.msg)
 					reject(result.msg)
 				}
 			},
 			fail(err) {
-				toast(API_ERROR)
+				toast.error(API_ERROR)
 				reject(err)
 			}
 		})

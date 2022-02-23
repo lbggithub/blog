@@ -6,13 +6,17 @@
 	"author": "西梁",
 	"license": "MIT",
 	"devDependencies": {
-		"@vicons/fa": "^0.12.0",
-		"naive-ui": "^2.25.1",
-		"vfonts": "^0.0.3"
+		"@vue/shared": "^3.2.31",
+		"unplugin-auto-import": "^0.5.11",
+		"unplugin-vue-components": "^0.17.18",
+		"vite-plugin-style-import": "1.4.1"
 	},
 	"dependencies": {
-		"dayjs": "^1.10.7",
+		"@vicons/fa": "^0.12.0",
+		"element-plus": "^2.0.2",
 		"github-markdown-css": "^5.1.0",
-		"markdown-it": "^12.3.2"
+		"markdown-it": "^12.3.2",
+		"vxe-table": "^4.1.21",
+		"xe-utils": "^3.5.4"
 	}
 }
