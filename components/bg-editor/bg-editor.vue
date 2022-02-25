@@ -1,8 +1,8 @@
 <template>
-	<view class="bg-editor">
+	<div class="bg-editor">
 		<textarea :modelValue="props.input" @update:modelValue="emit('update:input', $event)" class="editor-textarea" placeholder="在这里输入正文" maxlength="-1" />
-		<view v-html="compiledMarkdown" class="markdown-body"></view>
-	</view>
+		<div v-html="compiledMarkdown" class="markdown-body"></div>
+	</div>
 </template>
 
 <script setup>

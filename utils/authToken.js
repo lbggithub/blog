@@ -2,7 +2,7 @@
  * toekn 判断
  */
 import tryGetCurrentPage from '@/utils/tryGetCurrentPage.js'
-import config from '@/config/index.js'
+import { menus } from '@/config/menus.js'
 
 const loginPage = 'pages/admin/login' // 登陆页不需要判断
 
@@ -25,7 +25,7 @@ async function authToken() {
 		// 如果是菜单页，激活样式
 		let keys = currentPage.split('/')
 		let key = keys[keys.length - 1]
-		if (config.menus[key]) {
+		if (menus[key]) {
 			uni.$emit('msg', {
 				type: 'putMenuActiveKey',
 				data: key

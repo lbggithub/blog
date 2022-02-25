@@ -6,8 +6,11 @@
 
 <script setup>
 	import { ref } from 'vue'
+	import { useStore } from 'vuex'
 	import call from '@/utils/call.js'
 	import toast from '@/utils/toast.js'
+
+	const store = useStore()
 
 	// 双向绑定 v-model:labels
 	const props = defineProps({
@@ -22,17 +25,15 @@
 			call('addLabel', { name: lastVal }).then(res => {
 				optionsLables.value.push(lastVal)
 				toast.success(`${lastVal} 标签成功记录入库`)
+				store.dispatch('getLabels') // 刷新标签库
 			})
 		}
 	}
 
-	const inputValue = ref('')
-	let optionsLables = ref([]) // 标签库
-	// 	获取库中的标签
-	call('getLabels').then(res => {
-		optionsLables.value = res.data.map(i => {
-			return i.name
-		})
+
+	const optionsLables = ref([]) // 获取库中的标签
+	optionsLables.value = store.state.labels.map(i => {
+		return i.name
 	})
 </script>
 

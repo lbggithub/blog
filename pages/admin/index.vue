@@ -1,17 +1,17 @@
 <template>
-	<view class="container">
-		<view class="statistics">
-			<view v-for="item in statistics" class="box">
+	<div class="container">
+		<div class="statistics">
+			<div v-for="item in statistics" class="box">
 				<span class="label">{{item.label}}</span>
-				<view class="value-box">
+				<div class="value-box">
 					<el-icon>
 						<component :is="item.icon" />
 					</el-icon>
 					<span class="value">{{item.value}}</span>
-				</view>
-			</view>
-		</view>
-	</view>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script setup>
@@ -39,7 +39,7 @@
 	}])
 
 	// 获取文章统计
-	call('aggregatePosts').then(res => {
+	call('getAggregatePosts').then(res => {
 		statistics.value[0].value = res.data.total // 文章总数
 		statistics.value[1].value = res.data.totalPageView // 总浏览量
 	})

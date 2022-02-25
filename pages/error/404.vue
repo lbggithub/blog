@@ -1,9 +1,9 @@
 <template>
-	<view class="nothing-page">
+	<div class="nothing-page">
 		<el-empty description="你是不是走错了，这里什么都没有" :image-size="200">
 			<el-button round @click="router.redirectTo('index/index')">回首页看看</el-button>
 		</el-empty>
-	</view>
+	</div>
 </template>
 
 <script setup>

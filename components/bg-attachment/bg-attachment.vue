@@ -2,18 +2,18 @@
 	<!-- 附件库-->
 	<el-drawer v-model="show" title="附件库" :size="410" direction="rtl" destroy-on-close>
 		<!-- 搜索框 -->
-		<view class="act-search-box">
+		<div class="act-search-box">
 			<el-input v-model="form.inputValue" placeholder="输入附件名称" @change="search" />
 			<el-button>搜索</el-button>
-		</view>
+		</div>
 		<el-divider />
 		<!-- 附件列表 -->
-		<view v-loading="form.loading">
+		<div v-loading="form.loading">
 			<el-empty v-if="attachments.length === 0" :description="form.loading ? '查找中...' : '什么也没找不到'" :image-size="120"></el-empty>
-			<view v-else class="imags-box">
+			<div v-else class="imags-box">
 				<el-image v-for="item in attachments" @click="select(item)" :src="item.url" style="width: 176px; height: 120px" />
-			</view>
-		</view>
+			</div>
+		</div>
 		<el-divider />
 		<!-- 分页 -->
 		<vxe-pager @page-change="pageChange" v-model:current-page="form.currentPage" v-model:page-size="form.pageSize" :total="form.total" :layouts="['PrevPage', 'Number', 'NextPage', 'FullJump', 'Total']" />
@@ -24,16 +24,16 @@
 		<!-- 附件详情 选择模式下不需要显示详情-->
 		<el-drawer v-if="!isSelect" v-model="showDetail" title="附件详情" :size="340" direction="rtl" append-to-body>
 			<el-image :src="detail.url" :preview-src-list="[detail.url]" style="width: 280px; height: 150px" />
-			<view v-for="item in detailForm" class="attachment-detail">
+			<div v-for="item in detailForm" class="attachment-detail">
 				<el-divider />
-				<view class="label-box">
+				<div class="label-box">
 					<span vlass="label">{{item.label}}</span>
 					<el-icon v-if="item.copy" @click="setClipboardData(item.value)" color="#1890ff">
 						<CopyRegular />
 					</el-icon>
-				</view>
+				</div>
 				<span class="value">{{item.value}}</span>
-			</view>
+			</div>
 			<template #footer>
 				<el-popconfirm title="你确定要删除该附件？" @confirm="del">
 					<template #reference>

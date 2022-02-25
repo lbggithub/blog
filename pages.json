@@ -16,6 +16,13 @@
 			"leftWindow": false,
 			"navigationStyle": "custom"
 		}
+	}, {
+		"path": "pages/index/detail",
+		"style": {
+			"topWindow": false,
+			"leftWindow": false,
+			"navigationStyle": "custom"
+		}
 	}],
 	"subPackages": [{
 		"root": "pages/admin",
@@ -24,21 +31,37 @@
 			"style": {
 				"topWindow": false,
 				"leftWindow": false,
+				"rightWindow": false,
 				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "index",
 			"style": {
+				"rightWindow": false,
 				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "posts",
 			"style": {
+				"rightWindow": false,
 				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "writing",
 			"style": {
+				"rightWindow": false,
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "categorys",
+			"style": {
+				"rightWindow": false,
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "labels",
+			"style": {
+				"rightWindow": false,
 				"navigationStyle": "custom"
 			}
 		}]
@@ -67,7 +90,7 @@
 	"rightWindow": {
 		"path": "windows/rightWindow",
 		"style": {
-			"width": "0"
+			"width": "300px"
 		}
 	}
 }

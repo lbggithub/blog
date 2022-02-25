@@ -1,19 +1,19 @@
 <template>
-	<view class="top-window">
-		<view class="top-window-left">
+	<div class="top-window">
+		<div class="top-window-left">
 			<!-- 大屏幕显示 logo -->
-			<view class="logo-box hidden-xs-only">
+			<div class="logo-box hidden-xs-only">
 				<el-image style="width: 38px;height: 38px;margin-right: 8px;" src="/static/images/logo.png" fit="fill"></el-image>
 				<span class="blog-name">西梁的 Blog</span>
-			</view>
+			</div>
 			<!-- 小屏幕显示菜单按钮 -->
-			<view class="hidden-sm-and-up menu-icon">
+			<div class="hidden-sm-and-up menu-icon">
 				<el-icon :size="18" @click="showMenu = true">
 					<ThList />
 				</el-icon>
-			</view>
-		</view>
-		<view class="top-window-right">
+			</div>
+		</div>
+		<div class="top-window-right">
 			<!-- 右侧工具栏 -->
 			<el-button v-for="item in tools" circle @click="router.open(item.url)">
 				<el-icon>
@@ -22,12 +22,12 @@
 			</el-button>
 			<!-- 用户信息 -->
 			<el-dropdown :hide-timeout="75">
-				<view class="username-box">
+				<div class="username-box">
 					<span class="username">{{store.state.userInfo.username}}</span>
 					<el-icon color="#409eff">
 						<AngleDown />
 					</el-icon>
-				</view>
+				</div>
 				<template #dropdown>
 					<el-dropdown-menu>
 						<el-dropdown-item @click="showResetPwd = true">修改密码</el-dropdown-item>
@@ -35,12 +35,12 @@
 					</el-dropdown-menu>
 				</template>
 			</el-dropdown>
-		</view>
+		</div>
 		<!-- 菜单抽屉 -->
 		<el-drawer v-model="showMenu" :with-header="false" :size="240" direction="ltr" destroy-on-close>
-			<view class="muen-blog-name">
+			<div class="muen-blog-name">
 				<span class="blog-name">{{blogName}}</span>
-			</view>
+			</div>
 			<bg-menu @select="showMenu = false"></bg-menu>
 		</el-drawer>
 		<!-- 修改密码弹窗 -->
@@ -51,12 +51,30 @@
 				<el-button type="primary" :disabled="!newPassword" :loading="loading" @click="resetPwd">确认</el-button>
 			</template>
 		</el-dialog>
-	</view>
+	</div>
 </template>
 
 <script setup>
-	import { h, ref } from 'vue'
+	// 这里是一些全局调用
 	import { useStore } from 'vuex'
+	import { ElMessage } from 'element-plus'
+	import 'element-plus/es/components/message/style/css'
+	import 'element-plus/es/components/message-box/style/css'
+	const store = useStore()
+	uni.$on('msg', obj => {
+		if (obj.type === 'putMenuActiveKey') {
+			store.commit('putMenuActiveKey', obj.data)
+		}
+		if (obj.type === 'ElMessage') {
+			ElMessage({
+				message: obj.data.message,
+				type: obj.data.type,
+				duration: 1500
+			})
+		}
+	})
+	// 以下是正常的头部窗口代码
+	import { h, ref } from 'vue'
 	import { Link, Github, AngleDown, ThList } from '@vicons/fa'
 	import router from '@/utils/router.js'
 
@@ -71,7 +89,6 @@
 	}]
 
 	// 退出登陆
-	const store = useStore()
 	const logout = () => {
 		store.dispatch('logout')
 	}

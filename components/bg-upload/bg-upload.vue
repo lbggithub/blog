@@ -1,18 +1,18 @@
 <template>
-	<view class="bg-upload">
+	<div class="bg-upload">
 		<!-- 上传按钮 -->
 		<el-button type="primary" @click="upload" :loading="loading">上传图片</el-button>
 		<!-- 进度弹窗 -->
 		<el-dialog v-model="showModal" :width="480" title="上传进度" center destroy-on-close>
-			<view class="upload-image-box" v-for="image in images">
+			<div class="upload-image-box" v-for="image in images">
 				<el-image style="width: 60px;" :src="image.path" />
-				<view class="upload-image-progress">
+				<div class="upload-image-progress">
 					<span class="image-name line-1">{{image.name}}</span>
 					<el-progress :percentage="image.progress" status="success" />
-				</view>
-			</view>
+				</div>
+			</div>
 		</el-dialog>
-	</view>
+	</div>
 </template>
 
 <script setup>

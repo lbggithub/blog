@@ -1,6 +1,6 @@
 <template>
 	<el-menu :default-active="store.state.menuActiveKey" @select="handleSelect">
-		<el-menu-item v-for="(value, key, index) in config.menus" :index="key">
+		<el-menu-item v-for="(value, key, index) in menus" :index="key">
 			<el-icon>
 				<component :is="value.icon" />
 			</el-icon>
@@ -12,7 +12,7 @@
 <script setup>
 	import { ref } from 'vue'
 	import { useStore } from 'vuex'
-	import config from '@/config/index.js'
+	import { menus } from '@/config/menus.js'
 	import router from '@/utils/router.js'
 
 	const store = useStore()

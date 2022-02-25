@@ -12,6 +12,7 @@ exports.main = async (event, context) => {
 		user_id: payload.uid,
 		title: event.title,
 		abstract: event.abstract,
+		categorys: event.categorys,
 		labels: event.labels,
 		page_view: event.page_view,
 		sort: event.sort,

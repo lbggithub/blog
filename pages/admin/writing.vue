@@ -1,14 +1,14 @@
 <template>
-	<view class="container">
-		<view class="writing-header">
+	<div class="container">
+		<div class="writing-header">
 			<span class="title">{{form.title || '新文章'}}</span>
-			<view class="btns">
+			<div class="btns">
 				<el-button type="warning" @click="submit(2, '保存成功')" :loading="loading">保存草稿</el-button>
 				<el-button type="success">预览</el-button>
 				<el-button type="primary" @click="showSetting = true">发布</el-button>
 				<el-button @click="openAttachment(false)">附件库</el-button>
-			</view>
-		</view>
+			</div>
+		</div>
 		<el-divider />
 		<!-- 标题 -->
 		<el-input v-model="form.title" placeholder="请输入文章标题" maxlength="30" />
@@ -28,35 +28,41 @@
 				<el-form-item label="访问密码">
 					<el-input v-model="form.password" placeholder="给你的文章加个密" />
 				</el-form-item>
+				<el-form-item label="所属分类">
+					<get-categorys v-model:categorys="form.categorys" />
+				</el-form-item>
+				<el-form-item label="标签">
+					<get-labels v-model:labels="form.labels" />
+				</el-form-item>
 				<el-form-item label="浏览量（为了数据好看点）">
 					<el-input-number v-model="form.page_view" :min="0" :step="100" />
 				</el-form-item>
 				<el-form-item label="排序值（值越大，越靠前）">
 					<el-input-number v-model="form.sort" :min="0" />
 				</el-form-item>
-				<el-form-item label="标签">
-					<get-labels v-model:labels="form.labels" />
-				</el-form-item>
 				<el-form-item label="封面图">
-					<span v-if="!form.thumbnail" @click="openAttachment(true)" class="thumbnail-box">点我选择图片</span>
-					<el-image v-else @click="openAttachment(true)" :src="form.thumbnail" style="width: 280px;height: 150px;" />
+					<span v-if="!form.thumbnail" @click="openAttachment(true)" class="thumbnail-choose">点我选择图片</span>
+					<div v-else class="thumbnail-box">
+						<el-image @click="openAttachment(true)" :src="form.thumbnail" style="width: 280px;height: 150px;" />
+						<el-tag type="warning" @click="form.thumbnail = ''">移除</el-tag>
+					</div>
 				</el-form-item>
 			</el-form>
 			<template #footer>
 				<el-button type="primary" @click="submit(1, '发布成功')" :loading="loading">确认发布</el-button>
 			</template>
 		</el-drawer>
-	</view>
+	</div>
 </template>
 
 <script setup>
 	import { onLoad } from '@dcloudio/uni-app'
 	import { ref } from 'vue'
 	import XEUtils from 'xe-utils'
+	import getCategorys from './components/getCategorys.vue'
 	import getLabels from './components/getLabels.vue'
 	import call from '@/utils/call.js'
 	import toast from '@/utils/toast.js'
-	import password from '@/utils/password.js'
 
 	const showSetting = ref(false)
 
@@ -66,6 +72,7 @@
 		content: '', // 内容
 		html: '', // 内容 html 格式
 		abstract: '', // 摘要
+		categorys: [], // 分类
 		labels: [], // 标签
 		page_view: 0, // 浏览量
 		sort: 0, // 排序值
@@ -89,7 +96,6 @@
 		} else {
 			form.value.created_date = currentTime // 防止时间为空
 		}
-		form.value.password = form.value.password ? password.encode(form.value.password) : '' // 简单的加密
 		if (editorRef.value && form.value.content) {
 			form.value.html = editorRef.value.getHtml() // 获取 html 内容
 		}
@@ -143,7 +149,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.writing-header {
 		display: flex;
 		justify-content: space-between;
@@ -167,12 +173,23 @@
 		}
 	}
 
-	.thumbnail-box {
+	.thumbnail-choose {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		width: 280px;
 		height: 150px;
 		border: 1px #F0AD4E dashed;
+	}
+
+	.thumbnail-box {
+		position: relative;
+
+		.el-tag {
+			position: absolute;
+			right: 0;
+			top: 0;
+			border-radius: 0;
+		}
 	}
 </style>

@@ -1,6 +1,7 @@
 // 简单的加解密
-const password = {}
-password.encode = str => { //加密
+
+//加密
+const encode = str => {
 	var encode = ''
 	str = String(str)
 	for (var i = 0; i < str.length; i++) {
@@ -10,7 +11,8 @@ password.encode = str => { //加密
 	}
 	return encode
 }
-password.decode = str => { //解密
+//解密
+const decode = str => {
 	var arr = str.split(','),
 		decode = ''
 	for (var i = 0; i < arr.length; i++) {
@@ -20,4 +22,4 @@ password.decode = str => { //解密
 	return decode
 }
 
-export default password
+export { encode, decode }

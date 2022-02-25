@@ -1,5 +1,5 @@
 <template>
-	<view class="login-wrap">
+	<div class="login-wrap">
 		<el-card>
 			<template #header>
 				<span>{{needRegister ? '注册并自动登陆' : '登陆 blog'}}</span>
@@ -8,7 +8,7 @@
 			<el-input v-model="form.password" type="password" placeholder="密码"></el-input>
 			<el-button type="primary" :loading="loading" :disabled="disabled" @click="submit">{{needRegister ? '注册' : '登陆'}}</el-button>
 		</el-card>
-	</view>
+	</div>
 </template>
 
 <script setup>

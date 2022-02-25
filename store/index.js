@@ -9,6 +9,8 @@ const store = createStore({
 	state: {
 		menuActiveKey: '',
 		userInfo: uni.getStorageSync('userInfo') || { ...userInfo },
+		categorys: [],
+		labels: []
 	},
 	mutations: {
 		putMenuActiveKey(state, value) {
@@ -24,6 +26,12 @@ const store = createStore({
 			uni.removeStorageSync('uni_id_token')
 			uni.removeStorageSync('uni_id_token_expired')
 			router.reLaunch('admin/login')
+		},
+		putCategorys(state, value) {
+			state.categorys = value
+		},
+		putLabels(state, value) {
+			state.labels = value
 		}
 	},
 	actions: {
@@ -41,6 +49,16 @@ const store = createStore({
 			// 注销登陆 清除本地缓存
 			call('logout').then(() => {
 				commit('initToken', '登出成功')
+			})
+		},
+		getCategorys({ commit }) {
+			call('getCategorys').then(res => {
+				commit('putCategorys', res.data)
+			})
+		},
+		getLabels({ commit }) {
+			call('getLabels').then(res => {
+				commit('putLabels', res.data)
 			})
 		}
 	}
