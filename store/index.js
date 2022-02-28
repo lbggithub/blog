@@ -20,7 +20,7 @@ const store = createStore({
 			state.userInfo = value
 			uni.setStorageSync('userInfo', value)
 		},
-		initToken(state, msg) {
+		clearToken(state, msg) {
 			toast.success(msg)
 			state.userInfo = { ...userInfo }
 			uni.removeStorageSync('uni_id_token')
@@ -38,7 +38,7 @@ const store = createStore({
 		resetPwd({ commit }, value) {
 			return new Promise((resolve) => {
 				call('resetPwd', { password: value }).then(() => {
-					commit('initToken', '密码修改成功，需要重新登陆')
+					commit('clearToken', '密码修改成功，需要重新登陆')
 					resolve()
 				}).catch(() => {
 					resolve()
@@ -48,7 +48,7 @@ const store = createStore({
 		logout({ commit }) {
 			// 注销登陆 清除本地缓存
 			call('logout').then(() => {
-				commit('initToken', '登出成功')
+				commit('clearToken', '登出成功')
 			})
 		},
 		getCategorys({ commit }) {

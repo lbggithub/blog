@@ -4,7 +4,7 @@
 			<!-- 大屏幕显示 logo -->
 			<div class="logo-box hidden-xs-only">
 				<el-image style="width: 38px;height: 38px;margin-right: 8px;" src="/static/images/logo.png" fit="fill"></el-image>
-				<span class="blog-name">西梁的 Blog</span>
+				<span class="blog-name">{{siteName}}</span>
 			</div>
 			<!-- 小屏幕显示菜单按钮 -->
 			<div class="hidden-sm-and-up menu-icon">
@@ -39,7 +39,7 @@
 		<!-- 菜单抽屉 -->
 		<el-drawer v-model="showMenu" :with-header="false" :size="240" direction="ltr" destroy-on-close>
 			<div class="muen-blog-name">
-				<span class="blog-name">{{blogName}}</span>
+				<span class="blog-name">{{siteName}}</span>
 			</div>
 			<bg-menu @select="showMenu = false"></bg-menu>
 		</el-drawer>
@@ -55,30 +55,14 @@
 </template>
 
 <script setup>
-	// 这里是一些全局调用
-	import { useStore } from 'vuex'
-	import { ElMessage } from 'element-plus'
-	import 'element-plus/es/components/message/style/css'
-	import 'element-plus/es/components/message-box/style/css'
-	const store = useStore()
-	uni.$on('msg', obj => {
-		if (obj.type === 'putMenuActiveKey') {
-			store.commit('putMenuActiveKey', obj.data)
-		}
-		if (obj.type === 'ElMessage') {
-			ElMessage({
-				message: obj.data.message,
-				type: obj.data.type,
-				duration: 1500
-			})
-		}
-	})
-	// 以下是正常的头部窗口代码
 	import { h, ref } from 'vue'
+	import { useStore } from 'vuex'
 	import { Link, Github, AngleDown, ThList } from '@vicons/fa'
 	import router from '@/utils/router.js'
+	import { siteName } from '@/config/site.js'
+	
+	const store = useStore()
 
-	const blogName = '西梁的 Blog'
 	const showMenu = ref(false) // 是否显示菜单
 	const tools = [{
 		url: '/pages/index/index',

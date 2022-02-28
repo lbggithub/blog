@@ -1,7 +1,13 @@
+import { createSSRApp } from 'vue'
 import App from './App'
 import store from './store'
 
-import { createSSRApp } from 'vue'
+import './static/css/common.css'
+// Element Plus 额外提供了一系列类名，用于在某些条件下隐藏元素
+import 'element-plus/theme-chalk/display.css'
+// 在js中调用 message 需要引入样式
+import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/theme-chalk/el-message-box.css'
 
 // 主观认为 element 的表格非常不好用，所以我要用 vxe-table
 import XEUtils from 'xe-utils'

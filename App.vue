@@ -16,7 +16,4 @@
 </script>
 
 <style>
-	@import 'static/css/common.css';
-	/* Element Plus 额外提供了一系列类名，用于在某些条件下隐藏元素 */
-	@import 'element-plus/theme-chalk/display.css';
 </style>
