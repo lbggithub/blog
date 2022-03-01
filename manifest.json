@@ -77,6 +77,11 @@
         "sdkConfigs" : {
             "maps" : {}
         },
-        "title" : ""
+        "title" : "",
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
+        }
     }
 }

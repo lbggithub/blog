@@ -49,7 +49,7 @@
 							showCover: false
 						}
 					})
-					// 缩小右边窗口
+					// 隐藏右边窗口
 					uni.setRightWindowStyle({
 						width: '0',
 					})
