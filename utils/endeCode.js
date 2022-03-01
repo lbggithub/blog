@@ -1,6 +1,6 @@
 // 简单的加解密
 
-//加密
+// 加密
 const encode = str => {
 	var encode = ''
 	str = String(str)
@@ -11,7 +11,7 @@ const encode = str => {
 	}
 	return encode
 }
-//解密
+// 解密
 const decode = str => {
 	var arr = str.split(','),
 		decode = ''

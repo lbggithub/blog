@@ -1,6 +1,6 @@
 <template>
 	<!-- 附件库-->
-	<el-drawer v-model="show" title="附件库" :size="410" direction="rtl" destroy-on-close>
+	<el-drawer v-model="show" title="附件库" :size="380" direction="rtl" destroy-on-close>
 		<!-- 搜索框 -->
 		<div class="act-search-box">
 			<el-input v-model="form.inputValue" placeholder="输入附件名称" @change="search" />
@@ -11,19 +11,19 @@
 		<div v-loading="form.loading">
 			<el-empty v-if="attachments.length === 0" :description="form.loading ? '查找中...' : '什么也没找不到'" :image-size="120"></el-empty>
 			<div v-else class="imags-box">
-				<el-image v-for="item in attachments" @click="select(item)" :src="item.url" style="width: 176px; height: 120px" />
+				<el-image v-for="item in attachments" @click="select(item)" :src="item.url" style="width: 165px; height: 120px;" />
 			</div>
 		</div>
 		<el-divider />
 		<!-- 分页 -->
-		<vxe-pager @page-change="pageChange" v-model:current-page="form.currentPage" v-model:page-size="form.pageSize" :total="form.total" :layouts="['PrevPage', 'Number', 'NextPage', 'FullJump', 'Total']" />
+		<bg-pagination v-model:pagination="pagination" @pageChange="getList" />
 		<template #footer>
 			<!-- 上传附件组件 -->
 			<bg-upload @success="initList" />
 		</template>
 		<!-- 附件详情 选择模式下不需要显示详情-->
 		<el-drawer v-if="!isSelect" v-model="showDetail" title="附件详情" :size="340" direction="rtl" append-to-body>
-			<el-image :src="detail.url" :preview-src-list="[detail.url]" style="width: 280px; height: 150px" />
+			<el-image :src="detail.url" :preview-src-list="[detail.url]" style="width: 298px; height: 150px" />
 			<div v-for="item in detailForm" class="attachment-detail">
 				<el-divider />
 				<div class="label-box">
@@ -48,7 +48,7 @@
 <script setup>
 	import { ref } from 'vue'
 	import { CopyRegular } from '@vicons/fa'
-	import XEUtils from 'xe-utils'
+	import dayjs from 'dayjs'
 	import call from '@/utils/call.js'
 	import toast from '@/utils/toast.js'
 	import setClipboardData from '@/utils/setClipboardData.js'
@@ -57,11 +57,13 @@
 
 	// 定义参数
 	const form = ref({
-		currentPage: 1,
-		pageSize: 8,
-		total: 0,
 		inputValue: '',
 		loading: false
+	})
+	const pagination = ref({
+		currentPage: 1,
+		pageSize: 10,
+		total: 0,
 	})
 	const attachments = ref([]) // 附件列表
 
@@ -70,18 +72,16 @@
 	const getList = () => {
 		init = true
 		form.value.loading = true
-		call('getAttachments', form.value).then(res => {
+		call('getAttachments', {
+			...form.value,
+			...pagination.value
+		}).then(res => {
 			attachments.value = res.data.list
-			if (form.value.currentPage === 1) {
-				form.value.total = res.data.total
+			if (pagination.value.currentPage === 1) {
+				pagination.value.total = res.data.total
 			}
 			form.value.loading = false
 		})
-	}
-
-	// 分页
-	const pageChange = e => {
-		getList()
 	}
 
 	// 搜索
@@ -91,8 +91,8 @@
 
 	// 初始化列表
 	const initList = () => {
-		form.value.currentPage = 1
-		form.value.total = 0
+		pagination.value.currentPage = 1
+		pagination.value.total = 0
 		attachments.value = []
 		getList()
 	}
@@ -119,7 +119,7 @@
 				value: `${(item.size / 1000000).toFixed(3)} MB`
 			}, {
 				label: '上传日期：',
-				value: XEUtils.toDateString(item.created_date, 'yyyy-MM-dd HH:mm')
+				value: dayjs(item.created_date).format('YYYY-MM-DD HH:mm')
 			}, {
 				label: '普通链接：',
 				value: item.url,

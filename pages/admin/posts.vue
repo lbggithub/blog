@@ -3,54 +3,62 @@
 		<div class="tools">
 			<el-button v-if="isDel" @click="setIsDel(false)">返回</el-button>
 			<el-button v-else @click="setIsDel(true)" type="warning">打开回收站</el-button>
-			<el-button @click="del(null)" type="danger">删除选中</el-button>
+			<el-button @click="del()" type="danger">删除选中</el-button>
+			<el-button @click="initList" :icon="SyncAlt" circle style="float: right;" />
 		</div>
-		<vxe-table ref="tableRef" border align="center" :loading="loading" :data="tableData">
-			<vxe-column type="checkbox" width="60"></vxe-column>
-			<vxe-column title="标题" min-width="150">
-				<template #default="{ row }">
-					<el-link :href="`/pages/index/detail?id=${row._id}`" target="_blank">{{row.title}}</el-link>
+		<!-- 表格 -->
+		<el-table :data="tableData" v-loading="loading" @selection-change="handleSelectionChange">
+			<el-table-column type="selection" :width="55" />
+			<el-table-column label="标题" :min-width="150">
+				<template #default="scope">
+					<el-link :href="`/pages/index/detail?id=${scope.row._id}`" target="_blank">{{scope.row.title}}</el-link>
 				</template>
-			</vxe-column>
-			<vxe-column field="categorys" title="分类" :formatter="formatArr"></vxe-column>
-			<vxe-column field="labels" title="标签" :formatter="formatArr"></vxe-column>
-			<vxe-column field="page_view" title="浏览量"></vxe-column>
-			<vxe-column field="sort" title="排序" width="80"></vxe-column>
-			<vxe-column title="缩略图" width="100">
-				<template #default="{ row }">
-					<el-image v-if="row.thumbnail" style="width: 50px; height: 50px" :src="row.thumbnail" :preview-src-list="[row.thumbnail]" />
+			</el-table-column>
+			<el-table-column prop="categorys" label="分类" :formatter="arr"></el-table-column>
+			<el-table-column prop="labels" label="标签" :formatter="arr"></el-table-column>
+			<el-table-column prop="page_view" label="浏览量" :width="100" />
+			<el-table-column prop="sort" label="排序" :width="70" />
+			<el-table-column label="缩略图" :width="100">
+				<template #default="scope">
+					<el-image v-if="scope.row.thumbnail" :src="scope.row.thumbnail" :preview-src-list="[scope.row.thumbnail]" style="width: 50px; height: 50px" />
 				</template>
-			</vxe-column>
-			<vxe-column field="created_date" title="发布日期" formatter="formatDate"></vxe-column>
-			<vxe-column field="updated_date" title="更新时间" formatter="formatDate"></vxe-column>
-			<vxe-column field="status" title="状态" type="html" :formatter="formatStatus" width="100"></vxe-column>
-			<vxe-column title="操作" fixed="right" width="100">
-				<template #default="{ row }">
-					<el-button v-if="isDel" @click="back(row)" plain size="small">还原</el-button>
-					<el-button v-else @click="edit(row._id)" plain size="small" type="primary">编辑</el-button>
+			</el-table-column>
+			<el-table-column prop="created_date" label="发布日期" :formatter="date" />
+			<el-table-column prop="updated_date" label="更新时间" :formatter="date" />
+			<el-table-column label="状态" :width="80">
+				<template #default="scope">
+					<el-tag type="success" v-if="scope.row.status === 1">已发布</el-tag>
+					<el-tag type="warning" v-else>草稿箱</el-tag>
 				</template>
-			</vxe-column>
-		</vxe-table>
-		<vxe-pager @page-change="pageChange" v-model:current-page="params.currentPage" v-model:page-size="params.pageSize" :total="params.total" :layouts="['PrevPage', 'Number', 'NextPage', 'FullJump', 'Total']" />
+			</el-table-column>
+			<el-table-column label="操作" fixed="right" :width="80">
+				<template #default="scope">
+					<el-button v-if="isDel" @click="back(scope.row)" plain size="small">还原</el-button>
+					<el-button v-else @click="edit(scope.row._id)" plain size="small" type="primary">编辑</el-button>
+				</template>
+			</el-table-column>
+		</el-table>
+		<!-- 分页 -->
+		<bg-pagination v-model:pagination="pagination" @pageChange="getList" />
 	</div>
 </template>
 
 <script setup>
 	import { ref } from 'vue'
 	import { ElMessageBox } from 'element-plus'
+	import { SyncAlt } from '@vicons/fa'
+	import { date, arr } from '@/utils/formatter.js'
 	import call from '@/utils/call.js'
 	import router from '@/utils/router.js'
 	import toast from '@/utils/toast.js'
 
 	// 定义参数
-	const initParams = {
+	const tableData = ref([]) // 文章列表
+	const pagination = ref({
 		currentPage: 1,
 		pageSize: 10,
 		total: 0,
-		fidld: { user_id: false, abstract: false, password: false, content: false, html: false }, // 过滤字段
-	}
-	const tableData = ref([]) // 文章列表
-	const params = ref({ ...initParams })
+	})
 
 	const isDel = ref(false) // 是否获取回收站中的数据
 	const setIsDel = val => {
@@ -61,47 +69,34 @@
 	const loading = ref(false)
 	const getList = () => {
 		loading.value = true
-		call('getPosts', { ...params.value, is_del: isDel.value }).then(res => {
+		call('getPosts', {
+			...pagination.value,
+			is_del: isDel.value,
+			fidld: { user_id: false, abstract: false, password: false, content: false, html: false },
+		}).then(res => {
 			tableData.value = res.data.list
-			if (params.value.currentPage === 1) {
-				params.value.total = res.data.total
+			if (pagination.value.currentPage === 1) {
+				pagination.value.total = res.data.total
 			}
 			loading.value = false
 		})
 	}
 	getList()
 
-	// 格式化标签
-	const formatArr = ({ cellValue }) => {
-		return cellValue.join('，')
-	}
-
-	// 格式化状态
-	const formatStatus = ({ cellValue }) => {
-		return cellValue === 1 ? '<text style="color: #67C23A">已发布</text>' : '<text style="color: #E6A23C">草稿箱</text>'
-	}
-
-	// 点击分页
-	const pageChange = () => {
-		getList()
-	}
-
 	// 重新获取数据
 	const initList = () => {
 		tableData.value = []
-		params.value = { ...initParams }
+		pagination.value.currentPage = 1
+		pagination.value.total = 0
 		getList()
 	}
 
-	// 获取选中
-	const tableRef = ref()
-	const del = row => {
-		let checkboxRecords
-		if (row) {
-			checkboxRecords = [row]
-		} else {
-			checkboxRecords = tableRef.value.getCheckboxRecords()
-		}
+	// 获取选中，删除选中
+	let checkboxRecords = []
+	const handleSelectionChange = rows => {
+		checkboxRecords = rows
+	}
+	const del = () => {
 		let length = checkboxRecords.length
 		if (length > 0) {
 			let ids = checkboxRecords.map(i => {

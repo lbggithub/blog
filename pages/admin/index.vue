@@ -17,13 +17,12 @@
 <script setup>
 	import { h, ref } from 'vue'
 	import { BookmarkRegular, EyeRegular, CalendarCheckRegular } from '@vicons/fa'
-	import XEUtils from 'xe-utils'
+	import dayjs from 'dayjs'
 	import call from '@/utils/call.js'
-	
+
 	// 计算日期
-	const diff = XEUtils.getDateDiff('2019-7-22', new Date())
-	const date = `${diff.yyyy}年 ${diff.MM}月 ${diff.dd}日`
-	
+	const date = dayjs(new Date()).diff(dayjs('2019-7-22'), 'day')
+
 	const statistics = ref([{
 		label: '文章数',
 		value: '-',
@@ -34,7 +33,7 @@
 		icon: h(EyeRegular)
 	}, {
 		label: '建立距今',
-		value: date,
+		value: `${date} 天`,
 		icon: h(CalendarCheckRegular)
 	}])
 

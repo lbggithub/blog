@@ -27,7 +27,7 @@ async function authToken() {
 		let key = keys[keys.length - 1]
 		if (menus[key]) {
 			uni.$emit('msg', {
-				type: 'putMenuActiveKey',
+				type: 'putLeftMenuActiveKey',
 				data: key
 			})
 		}

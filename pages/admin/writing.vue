@@ -17,7 +17,7 @@
 		<!-- 内容 -->
 		<bg-editor v-model:input="form.content" ref="editorRef" />
 		<!-- 设置 -->
-		<el-drawer v-model="showSetting" title="文章设置" :size="500" direction="rtl">
+		<el-drawer v-model="showSetting" title="文章设置" :size="400" direction="rtl">
 			<el-form label-position="top">
 				<el-form-item label="发表日期">
 					<el-date-picker v-model="form.created_date" type="date" />
@@ -58,7 +58,7 @@
 <script setup>
 	import { onLoad } from '@dcloudio/uni-app'
 	import { ref } from 'vue'
-	import XEUtils from 'xe-utils'
+	import dayjs from 'dayjs'
 	import getCategorys from './components/getCategorys.vue'
 	import getLabels from './components/getLabels.vue'
 	import call from '@/utils/call.js'
@@ -105,7 +105,7 @@
 			form.value.abstract = str.substring(0, 30)
 		}
 		if (form.value.title === autoTitle) {
-			autoTitle = `保存于 ${XEUtils.toDateString(currentTime, 'yyyy-MM-dd')}`
+			autoTitle = `保存于 ${dayjs(currentTime).format('YYYY-MM-DD')}`
 			form.value.title = autoTitle
 		} else {
 			autoTitle = ''

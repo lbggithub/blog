@@ -7,15 +7,11 @@ const userInfo = { username: '' } // 定义用户信息
 
 const store = createStore({
 	state: {
-		menuActiveKey: '',
 		userInfo: uni.getStorageSync('userInfo') || { ...userInfo },
-		categorys: [],
-		labels: []
+		categorys: uni.getStorageSync('categorys') || [],
+		labels: uni.getStorageSync('labels') || []
 	},
 	mutations: {
-		putMenuActiveKey(state, value) {
-			state.menuActiveKey = value
-		},
 		putUserInfo(state, value) {
 			state.userInfo = value
 			uni.setStorageSync('userInfo', value)
@@ -29,9 +25,11 @@ const store = createStore({
 		},
 		putCategorys(state, value) {
 			state.categorys = value
+			uni.setStorageSync('categorys', value)
 		},
 		putLabels(state, value) {
 			state.labels = value
+			uni.setStorageSync('labels', value)
 		}
 	},
 	actions: {
@@ -52,11 +50,13 @@ const store = createStore({
 			})
 		},
 		getCategorys({ commit }) {
+			commit('putCategorys', [])
 			call('getCategorys').then(res => {
 				commit('putCategorys', res.data)
 			})
 		},
 		getLabels({ commit }) {
+			commit('putLabels', [])
 			call('getLabels').then(res => {
 				commit('putLabels', res.data)
 			})

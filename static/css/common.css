@@ -1,16 +1,16 @@
 /* start--清除默认样式，使用怪异模型--start */
 html,
-body
-{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: serif;
 }
 
 *,
 *:before,
 *:after {
-  box-sizing: inherit;
+	box-sizing: inherit;
 }
 
 /* 文字行数 */
@@ -45,11 +45,16 @@ page {
 
 /* 主容器 */
 .container {
+	width: 100%;
 	/* 满高度（100vh） - 头部（60px） - page 的 padding (30px) */
 	height: calc(100vh - 90px);
 	padding: 15px;
 	border-radius: 5px;
 	background-color: #ffffff;
+	/* 下面这个绝对定位很重要，去掉后 element 表格宽度不能自适应 */
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 /* 小屏幕下主容器占满 */
@@ -57,7 +62,15 @@ page {
 	page {
 		padding: 0;
 	}
+
 	.container {
 		height: calc(100vh - 60px);
 	}
+}
+
+
+/* 窗口宽度变化动画 */
+uni-left-window,
+uni-right-window {
+	transition: width .2s ease;
 }

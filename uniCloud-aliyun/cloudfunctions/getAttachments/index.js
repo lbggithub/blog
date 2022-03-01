@@ -1,10 +1,11 @@
 'use strict';
 exports.main = async function(event, context) {
 	const db = uniCloud.database().collection('attachments')
+	const rep = new RegExp(event.inputValue)
 
 	let total = 0
 	if (event.currentPage === 1) {
-		let count = await db.count()
+		let count = await db.where({ name: rep }).count()
 		total = count.total
 	}
 
@@ -12,7 +13,7 @@ exports.main = async function(event, context) {
 		.skip((event.currentPage - 1) * event.pageSize)
 		.limit(event.pageSize)
 		.orderBy('created_date', 'desc')
-		.where({ name: new RegExp(event.inputValue) })
+		.where({ name: rep })
 		.get()
 
 	return { data: { list: res.data, total: total }, code: 0 }

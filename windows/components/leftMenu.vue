@@ -1,5 +1,5 @@
 <template>
-	<el-menu :default-active="store.state.menuActiveKey" @select="handleSelect">
+	<el-menu :default-active="activeKey" @select="handleSelect">
 		<el-menu-item v-for="(value, key, index) in menus" :index="key">
 			<el-icon>
 				<component :is="value.icon" />
@@ -11,12 +11,12 @@
 
 <script setup>
 	import { ref } from 'vue'
-	import { useStore } from 'vuex'
 	import { menus } from '@/config/menus.js'
 	import router from '@/utils/router.js'
 
-	const store = useStore()
-
+	const props = defineProps({
+		activeKey: String
+	})
 	const emit = defineEmits(['select'])
 
 	const handleSelect = key => {
@@ -34,7 +34,7 @@
 			padding-left: 40px !important;
 
 			&:hover {
-				color: #409eff; // element-css 变量：https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/src/common/var.scss 
+				color: #409eff;
 				background: none;
 			}
 

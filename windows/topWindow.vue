@@ -2,24 +2,24 @@
 	<div class="top-window">
 		<div class="top-window-left">
 			<!-- 大屏幕显示 logo -->
-			<div class="logo-box hidden-xs-only">
-				<el-image style="width: 38px;height: 38px;margin-right: 8px;" src="/static/images/logo.png" fit="fill"></el-image>
-				<span class="blog-name">{{siteName}}</span>
-			</div>
+			<match-media :min-width="768">
+				<div class="logo-box">
+					<el-image style="width: 38px;height: 38px;margin-right: 8px;" src="/static/images/logo.png" fit="fill"></el-image>
+					<span class="blog-name">{{siteName}}</span>
+				</div>
+			</match-media>
 			<!-- 小屏幕显示菜单按钮 -->
-			<div class="hidden-sm-and-up menu-icon">
-				<el-icon :size="18" @click="showMenu = true">
-					<ThList />
-				</el-icon>
-			</div>
+			<match-media :max-width="768">
+				<div class="menu-icon">
+					<el-icon :size="18" @click="showLeftMenu">
+						<ThList />
+					</el-icon>
+				</div>
+			</match-media>
 		</div>
 		<div class="top-window-right">
 			<!-- 右侧工具栏 -->
-			<el-button v-for="item in tools" circle @click="router.open(item.url)">
-				<el-icon>
-					<component :is="item.icon" />
-				</el-icon>
-			</el-button>
+			<el-button @click="router.open(item.url)" :icon="item.icon" v-for="item in tools" circle />
 			<!-- 用户信息 -->
 			<el-dropdown :hide-timeout="75">
 				<div class="username-box">
@@ -36,14 +36,6 @@
 				</template>
 			</el-dropdown>
 		</div>
-		<!-- 菜单抽屉 -->
-		<el-drawer v-model="showMenu" :with-header="false" :size="240" direction="ltr" destroy-on-close>
-			<div class="muen-blog-name">
-				<span class="blog-name">{{siteName}}</span>
-			</div>
-			<bg-menu @select="showMenu = false"></bg-menu>
-		</el-drawer>
-		<!-- 修改密码弹窗 -->
 		<el-dialog v-model="showResetPwd" title="修改密码" top="30vh" destroy-on-close>
 			<el-input v-model="newPassword" type="password" placeholder="输入新密码"></el-input>
 			<template #footer>
@@ -60,10 +52,9 @@
 	import { Link, Github, AngleDown, ThList } from '@vicons/fa'
 	import router from '@/utils/router.js'
 	import { siteName } from '@/config/site.js'
-	
+
 	const store = useStore()
 
-	const showMenu = ref(false) // 是否显示菜单
 	const tools = [{
 		url: '/pages/index/index',
 		icon: h(Link)
@@ -87,6 +78,17 @@
 			newPassword.value = ''
 			showResetPwd.value = false
 			loading.value = false
+		})
+	}
+
+	// 打开菜单抽屉
+	const showLeftMenu = () => {
+		uni.$emit('msg', {
+			type: 'showLeftMenu',
+			data: {
+				showMenu: true,
+				showCover: true
+			}
 		})
 	}
 </script>
@@ -115,10 +117,6 @@
 			height: 60px;
 			width: 240px;
 			border-bottom: $border;
-		}
-
-		::v-deep.el-drawer__body {
-			padding: 0 !important;
 		}
 
 		.menu-icon {

@@ -13,10 +13,9 @@
 	},
 	"dependencies": {
 		"@vicons/fa": "^0.12.0",
+		"dayjs": "^1.10.8",
 		"element-plus": "^2.0.2",
 		"github-markdown-css": "^5.1.0",
-		"markdown-it": "^12.3.2",
-		"vxe-table": "^4.1.21",
-		"xe-utils": "^3.5.4"
+		"markdown-it": "^12.3.2"
 	}
 }

@@ -3,12 +3,13 @@
 		<div class="tools">
 			<el-button @click="del" type="danger">删除选中</el-button>
 			<el-button @click="showAdd = true" type="primary">{{`新增${props.title}`}}</el-button>
+			<el-button @click="store.dispatch(props.getApi)" :icon="SyncAlt" circle style="float: right;" />
 		</div>
-		<vxe-table ref="tableRef" border align="center" :loading="loading" :data="store.state[props.data]">
-			<vxe-column type="checkbox" width="60"></vxe-column>
-			<vxe-column field="name" :title="`${props.title}名称`"></vxe-column>
-			<vxe-column field="created_date" title="创建日期" formatter="formatDate"></vxe-column>
-		</vxe-table>
+		<el-table :data="store.state[props.data]" @selection-change="handleSelectionChange" style="width: 100%">
+			<el-table-column type="selection" width="55" />
+			<el-table-column prop="name" :label="`${props.title}名称`" />
+			<el-table-column prop="created_date" label="创建日期" :formatter="date" />
+		</el-table>
 		<!-- 新增弹窗 -->
 		<el-dialog v-model="showAdd" :title="`新增${props.title}`">
 			<el-input v-model="name" :placeholder="`在这里输入${props.title}名称`"></el-input>
@@ -24,6 +25,8 @@
 	import { ref } from 'vue'
 	import { useStore } from 'vuex'
 	import { ElMessageBox } from 'element-plus'
+	import { SyncAlt } from '@vicons/fa'
+	import { date } from '@/utils/formatter.js'
 	import call from '@/utils/call.js'
 	import toast from '@/utils/toast.js'
 
@@ -37,29 +40,31 @@
 		delApi: String
 	})
 
-	const loading = ref(false) // 防止多次点击
+	const showAdd = ref(false) // 打开弹窗
 
-	// 新增弹窗
-	const showAdd = ref(false)
 	const name = ref('')
+	let loading = false // 防止多次点击
+
 	const submit = () => {
-		if (loading.value) { return }
-		loading.value = true
+		if (loading) { return }
+		loading = true
 		showAdd.value = false
 		call(props.addApi, { name: name.value }).then(res => {
 			store.dispatch(props.getApi)
 			name.value = ''
 			toast.success('保存成功')
-			loading.value = false
+			loading = false
 		}).catch(() => {
-			loading.value = false
+			loading = false
 		})
 	}
 
 	// 获取选中，删除选中
-	const tableRef = ref()
+	let checkboxRecords = []
+	const handleSelectionChange = rows => {
+		checkboxRecords = rows
+	}
 	const del = () => {
-		let checkboxRecords = tableRef.value.getCheckboxRecords()
 		let length = checkboxRecords.length
 		if (length > 0) {
 			let ids = checkboxRecords.map(i => {
@@ -70,14 +75,14 @@
 				cancelButtonText: '取消',
 				type: 'error',
 			}).then(() => {
-				if (loading.value) { return }
-				loading.value = true
+				if (loading) { return }
+				loading = true
 				call(props.delApi, { ids: ids }).then(res => {
 					store.dispatch(props.getApi)
 					toast.success('删除成功')
-					loading.value = false
+					loading = false
 				}).catch(() => {
-					loading.value = false
+					loading = false
 				})
 			}).catch(() => {
 				// 点击了取消

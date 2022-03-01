@@ -78,18 +78,24 @@
 	"leftWindow": {
 		"path": "windows/leftWindow",
 		"style": {
-			"width": "240px"
+			"width": "0"
+		},
+		"matchMedia": {
+			"minWidth": 0
 		}
 	},
 	"rightWindow": {
 		"path": "windows/rightWindow",
 		"style": {
-			"width": "300px"
+			"width": "0"
+		},
+		"matchMedia": {
+			"minWidth": 0
 		}
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "西梁的 Blog",
+		"navigationBarTitleText": "西梁'小栈",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	}
