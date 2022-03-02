@@ -5,18 +5,17 @@
 </template>
 
 <script setup>
-	import { ref } from 'vue'
-	import { useStore } from 'vuex'
-	import call from '@/utils/call.js'
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+import call from '@/utils/call.js'
 
-	const store = useStore() // 获取分类库中的分类
+const store = useStore() // 获取分类库中的分类
 
-	// 双向绑定 v-model:categorys
-	const props = defineProps({
-		categorys: Array
-	})
-	const emit = defineEmits(['update:categorys'])
+// 双向绑定 v-model:categorys
+const props = defineProps({
+	categorys: Array
+})
+const emit = defineEmits(['update:categorys'])
 </script>
 
-<style>
-</style>
+<style></style>

@@ -37,37 +37,31 @@ body {
 	-webkit-box-orient: vertical;
 }
 
-/* 默认背景颜色 */
-page {
-	background-color: #f8f8f8;
-	padding: 15px;
-}
-
-/* 主容器 */
+/* 后台页面主容器 */
 .container {
 	width: 100%;
-	/* 满高度（100vh） - 头部（60px） - page 的 padding (30px) */
-	height: calc(100vh - 90px);
+	/* 满高度（100vh） - 头部（60px）*/
+	height: calc(100vh - 60px);
 	padding: 15px;
-	border-radius: 5px;
-	background-color: #ffffff;
 	/* 下面这个绝对定位很重要，去掉后 element 表格宽度不能自适应 */
 	position: absolute;
 	top: 0;
 	left: 0;
 }
 
-/* 小屏幕下主容器占满 */
-@media screen and (max-width: 768px) {
-	page {
-		padding: 0;
-	}
-
-	.container {
-		height: calc(100vh - 60px);
-	}
+/* 前台页面主容器 */
+.main {
+	width: 100%;
+	height: 100vh;
+	padding: 30px 80px;
 }
 
+/* 小屏幕下主容器占满 */
+@media screen and (max-width: 768px) {
+	.main {
+		padding: 15px;
+	}
+}
 
 /* 窗口宽度变化动画 */
 uni-left-window,

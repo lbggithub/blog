@@ -11,7 +11,7 @@
 			<el-table-column type="selection" :width="55" />
 			<el-table-column label="标题" :min-width="150">
 				<template #default="scope">
-					<el-link :href="`/pages/index/detail?id=${scope.row._id}`" target="_blank">{{scope.row.title}}</el-link>
+					<el-link :href="`/pages/index/detail?id=${scope.row._id}`" target="_blank">{{ scope.row.title }}</el-link>
 				</template>
 			</el-table-column>
 			<el-table-column prop="categorys" label="分类" :formatter="arr"></el-table-column>
@@ -44,99 +44,105 @@
 </template>
 
 <script setup>
-	import { ref } from 'vue'
-	import { ElMessageBox } from 'element-plus'
-	import { SyncAlt } from '@vicons/fa'
-	import { date, arr } from '@/utils/formatter.js'
-	import call from '@/utils/call.js'
-	import router from '@/utils/router.js'
-	import toast from '@/utils/toast.js'
+import { ref } from 'vue'
+import { ElMessageBox } from 'element-plus'
+import { SyncAlt } from '@vicons/fa'
+import { date, arr } from '@/utils/formatter.js'
+import call from '@/utils/call.js'
+import router from '@/utils/router.js'
+import toast from '@/utils/toast.js'
 
-	// 定义参数
-	const tableData = ref([]) // 文章列表
-	const pagination = ref({
-		currentPage: 1,
-		pageSize: 10,
-		total: 0,
+// 定义参数
+const tableData = ref([]) // 文章列表
+const pagination = ref({
+	currentPage: 1,
+	pageSize: 10,
+	total: 0
+})
+
+const isDel = ref(false) // 是否获取回收站中的数据
+const setIsDel = val => {
+	isDel.value = val
+	initList()
+}
+
+const loading = ref(false)
+const getList = () => {
+	loading.value = true
+	call('getPosts', {
+		...pagination.value,
+		is_del: isDel.value,
+		fidld: { user_id: false, abstract: false, password: false, content: false, html: false }
+	}).then(res => {
+		tableData.value = res.data.list
+		if (pagination.value.currentPage === 1) {
+			pagination.value.total = res.data.total
+		}
+		loading.value = false
 	})
+}
+getList()
 
-	const isDel = ref(false) // 是否获取回收站中的数据
-	const setIsDel = val => {
-		isDel.value = val
-		initList()
-	}
-
-	const loading = ref(false)
-	const getList = () => {
-		loading.value = true
-		call('getPosts', {
-			...pagination.value,
-			is_del: isDel.value,
-			fidld: { user_id: false, abstract: false, password: false, content: false, html: false },
-		}).then(res => {
-			tableData.value = res.data.list
-			if (pagination.value.currentPage === 1) {
-				pagination.value.total = res.data.total
-			}
-			loading.value = false
-		})
-	}
+// 重新获取数据
+const initList = () => {
+	tableData.value = []
+	pagination.value.currentPage = 1
+	pagination.value.total = 0
 	getList()
+}
 
-	// 重新获取数据
-	const initList = () => {
-		tableData.value = []
-		pagination.value.currentPage = 1
-		pagination.value.total = 0
-		getList()
-	}
-
-	// 获取选中，删除选中
-	let checkboxRecords = []
-	const handleSelectionChange = rows => {
-		checkboxRecords = rows
-	}
-	const del = () => {
-		let length = checkboxRecords.length
-		if (length > 0) {
-			let ids = checkboxRecords.map(i => {
-				return i._id
-			})
-			ElMessageBox.confirm(`确定要删除这 ${length} 项吗？`, `${!isDel.value ? '加入回收站' : '彻底删除！！！'}`, {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'error',
-			}).then(() => {
-				if (loading.value) { return }
+// 获取选中，删除选中
+let checkboxRecords = []
+const handleSelectionChange = rows => {
+	checkboxRecords = rows
+}
+const del = () => {
+	let length = checkboxRecords.length
+	if (length > 0) {
+		let ids = checkboxRecords.map(i => {
+			return i._id
+		})
+		ElMessageBox.confirm(`确定要删除这 ${length} 项吗？`, `${!isDel.value ? '加入回收站' : '彻底删除！！！'}`, {
+			confirmButtonText: '确定',
+			cancelButtonText: '取消',
+			type: 'error'
+		})
+			.then(() => {
+				if (loading.value) {
+					return
+				}
 				loading.value = true
-				call('delPosts', { ids: ids, del: isDel.value }).then(res => {
-					toast.success('删除成功')
-					initList()
-				}).catch(() => {
-					loading.value = false
-				})
-			}).catch(() => {
+				call('delPosts', { ids: ids, del: isDel.value })
+					.then(res => {
+						toast.success('删除成功')
+						initList()
+					})
+					.catch(() => {
+						loading.value = false
+					})
+			})
+			.catch(() => {
 				// 点击了取消
 			})
-		}
 	}
+}
 
-	// 还原删除
-	const back = row => {
-		call('delPosts', { ids: [row._id], del: false, back: true }).then(res => {
-			toast.success('还原成功')
-			initList()
-		})
-	}
+// 还原删除
+const back = row => {
+	call('delPosts', { ids: [row._id], del: false, back: true }).then(res => {
+		toast.success('还原成功')
+		initList()
+	})
+}
 
-	// 编辑
-	const edit = id => {
-		router.redirectTo(`admin/writing?id=${id}`)
-	}
+// 编辑
+const edit = id => {
+	router.redirectTo(`admin/writing?id=${id}`)
+}
 </script>
 
 <style lang="scss">
-	.tools {
-		margin-bottom: 20px;
-	}
+.tools {
+	margin-bottom: 20px;
+}
 </style>

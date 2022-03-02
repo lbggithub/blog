@@ -1,11 +1,7 @@
 <template>
-	<div class="">
-		
-	</div>
+	<div class="main">123</div>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
-<style>
-</style>
+<style></style>

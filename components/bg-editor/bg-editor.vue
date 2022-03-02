@@ -6,54 +6,51 @@
 </template>
 
 <script setup>
-	// 迫于找不到合适且兼容 uniapp 的，所以自己写了一个 markdown 编辑器（我尽量不使用第三方的UI，方便直接使用）
-	import { defineAsyncComponent, ref, computed } from 'vue'
-	import markdownIt from 'markdown-it'
-	import 'github-markdown-css/github-markdown-light.css'
+// 迫于找不到合适且兼容 uniapp 的，所以自己写了一个 markdown 编辑器（我尽量不使用第三方的UI，方便直接使用）
+import { defineAsyncComponent, ref, computed } from 'vue'
+import markdownIt from 'markdown-it'
+import 'github-markdown-css/github-markdown-light.css'
 
-	// 双向绑定 v-model:input
-	const props = defineProps({
-		input: String
-	})
-	const emit = defineEmits(['update:input'])
+// 双向绑定 v-model:input
+const props = defineProps({
+	input: String
+})
+const emit = defineEmits(['update:input'])
 
-	// 初始化 markdown-it
-	var md = new markdownIt().set()
+// 初始化 markdown-it
+var md = new markdownIt().set()
 
-	// 实时获取 html 内容
-	const compiledMarkdown = computed(() => {
-		return md.render(props.input)
-	})
+// 实时获取 html 内容
+const compiledMarkdown = computed(() => {
+	return md.render(props.input)
+})
 
-	// 把获取 html 的方法暴露给父组件
-	const getHtml = () => {
-		return compiledMarkdown.value
-	}
-	defineExpose({ getHtml })
+// 把获取 html 的方法暴露给父组件
+const getHtml = () => {
+	return compiledMarkdown.value
+}
+defineExpose({ getHtml })
 </script>
 
 <style lang="scss">
-	.bg-editor {
-		display: flex;
-		margin-top: 30px;
-
-		.editor-textarea,
-		.markdown-body {
-			width: 50%;
-			height: 70vh;
-			padding: 10px;
-			border-radius: 2px;
-			box-sizing: content-box;
-		}
-
-		.editor-textarea {
-			border: 1px solid #e5e7eb;
-			font-size: 14px;
-			line-height: 20px;
-		}
-
-		.markdown-body {
-			overflow: scroll;
-		}
+.bg-editor {
+	display: flex;
+	margin-top: 30px;
+	.editor-textarea,
+	.markdown-body {
+		width: 50%;
+		height: 70vh;
+		padding: 10px;
+		border-radius: 2px;
+		box-sizing: content-box;
 	}
+	.editor-textarea {
+		border: 1px solid #e5e7eb;
+		font-size: 14px;
+		line-height: 20px;
+	}
+	.markdown-body {
+		overflow: scroll;
+	}
+}
 </style>

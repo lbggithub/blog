@@ -3,8 +3,7 @@
 </template>
 
 <script setup>
-	import commonTable from './components/commonTable.vue'
+import commonTable from './components/commonTable.vue'
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
