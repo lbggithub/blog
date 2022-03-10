@@ -4,7 +4,7 @@ body {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: cursive;
+	font-family: "Microsoft YaHei", "黑体", "宋体", sans-serif;
 }
 
 *,
@@ -42,7 +42,7 @@ body {
 	width: 100%;
 	/* 满高度（100vh） - 头部（60px）*/
 	height: calc(100vh - 60px);
-	padding: 15px 15px 15px 240px;
+	padding: 20px 20px 20px 260px;
 	transition: padding .3s ease;
 	/* 下面这个绝对定位很重要，去掉后 element 表格宽度不能自适应 */
 	position: absolute;

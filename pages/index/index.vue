@@ -77,6 +77,7 @@ const getList = () => {
 .post-list {
 	max-width: 968px;
 	margin-top: 30px;
+	padding-bottom: 20px;
 	flex-grow: 1;
 }
 </style>

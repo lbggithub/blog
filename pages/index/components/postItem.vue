@@ -42,7 +42,7 @@ defineProps({
 	&-title {
 		font-size: 20px;
 		line-height: 30px;
-		font-weight: 600;
+		font-weight: bold;
 	}
 	&-abstract {
 		font-size: 15px;

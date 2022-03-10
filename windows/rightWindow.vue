@@ -141,7 +141,7 @@ const clickLabel = name => {
 		justify-content: space-between;
 		align-items: flex-end;
 		justify-content: center;
-		padding: 30px 5px 5px;
+		padding: 30px 5px 10px;
 		.link {
 			text-decoration: none;
 			color: #333333;
@@ -150,11 +150,12 @@ const clickLabel = name => {
 	}
 }
 .left-icon {
-	z-index: 111;
+	z-index: 99999;
 	position: fixed;
 	top: 0;
 	right: 10px;
 	height: 100vh;
 	cursor: pointer;
+	opacity: 0.6;
 }
 </style>
