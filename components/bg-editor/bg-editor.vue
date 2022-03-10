@@ -18,7 +18,7 @@ const props = defineProps({
 const emit = defineEmits(['update:input'])
 
 // 初始化 markdown-it
-var md = new markdownIt().set()
+var md = new markdownIt().set({ breaks: true })
 
 // 实时获取 html 内容
 const compiledMarkdown = computed(() => {
@@ -36,6 +36,7 @@ defineExpose({ getHtml })
 .bg-editor {
 	display: flex;
 	margin-top: 30px;
+	overflow: hidden;
 	.editor-textarea,
 	.markdown-body {
 		width: 50%;
@@ -43,6 +44,7 @@ defineExpose({ getHtml })
 		padding: 10px;
 		border-radius: 2px;
 		box-sizing: content-box;
+		font-family: cursive !important;
 	}
 	.editor-textarea {
 		border: 1px solid #e5e7eb;

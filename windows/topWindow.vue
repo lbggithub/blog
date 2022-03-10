@@ -3,10 +3,7 @@
 		<div class="top-window-left">
 			<!-- 大屏幕显示 logo -->
 			<match-media :min-width="768">
-				<div class="logo-box">
-					<el-image style="width: 38px;height: 38px;margin-right: 8px;" src="/static/images/logo.png" fit="fill"></el-image>
-					<span class="blog-name">{{ siteName }}</span>
-				</div>
+				<span class="logo-box">{{ siteName }}</span>
 			</match-media>
 			<!-- 小屏幕显示菜单按钮 -->
 			<match-media :max-width="768">
@@ -102,11 +99,6 @@ $border: 1px solid #e5e7eb;
 	border-bottom: $border;
 	padding: 0 40px;
 	background-color: #ffffff;
-	.blog-name {
-		font-size: 18px;
-		font-weight: bold;
-		color: #409eff;
-	}
 	.muen-blog-name {
 		display: flex;
 		align-items: center;
@@ -124,6 +116,9 @@ $border: 1px solid #e5e7eb;
 		display: flex;
 		align-items: center;
 		height: 60px;
+		font-size: 18px;
+		font-weight: bold;
+		color: #409eff;
 	}
 	.top-window-right {
 		flex-grow: 1;

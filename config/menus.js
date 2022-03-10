@@ -1,11 +1,11 @@
 import { h } from 'vue'
-import { GrinTongueWink, Table, PenSquare, Bars, Tags } from '@vicons/fa'
+import { TachometerAlt, Table, PenSquare, Bars, Tags } from '@vicons/fa'
 
 export const menus = {
 	index: {
-		label: '首页',
+		label: '控制台',
 		page: 'pages/admin/index',
-		icon: h(GrinTongueWink),
+		icon: h(TachometerAlt),
 	},
 	writing: {
 		label: '写文章',

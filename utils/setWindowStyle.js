@@ -1,54 +1,43 @@
 // 改变左右窗口样式
 
-let showWindow = true
+let showWindow = true // 防止多次调用
+const showObj = {
+	showMenu: true,
+	showCover: false
+}
+const hideObj = {
+	showMenu: false,
+	showCover: false
+}
 
 function setWindowStyle(width) {
+	// 无入参，获取当前屏幕宽度
 	if (!width) {
 		width = uni.getSystemInfoSync().windowWidth
 		showWindow = width < 768
 	}
+	// 大于 768 显示左右窗口
 	if (width >= 768 && !showWindow) {
 		showWindow = true
-		// 展示左边窗口
-		uni.setLeftWindowStyle({
-			width: '240px',
-		})
 		uni.$emit('msg', {
 			type: 'showLeftMenu',
-			data: {
-				showMenu: true,
-				showCover: false
-			}
+			data: showObj
 		})
-		// 展示右边窗口
-		uni.setRightWindowStyle({
-			width: '300px',
-		})
-		uni.$emit('showRightMenu', {
-			showMenu: true,
-			showCover: false
+		uni.$emit('setRightStyle', {
+			type: 'showRightMenu',
+			data: showObj
 		})
 	}
+	// 小于 768 隐藏左右串口
 	if (width < 768 && showWindow) {
 		showWindow = false
-		// 隐藏左边窗口
-		uni.setLeftWindowStyle({
-			width: '0',
-		})
 		uni.$emit('msg', {
 			type: 'showLeftMenu',
-			data: {
-				showMenu: false,
-				showCover: false
-			}
+			data: hideObj
 		})
-		// 隐藏右边窗口
-		uni.setRightWindowStyle({
-			width: '0',
-		})
-		uni.$emit('showRightMenu', {
-			showMenu: false,
-			showCover: false
+		uni.$emit('setRightStyle', {
+			type: 'showRightMenu',
+			data: hideObj
 		})
 	}
 }

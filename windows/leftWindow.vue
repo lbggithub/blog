@@ -3,7 +3,7 @@
 		<!-- 左边菜单 -->
 		<div class="left-window" :class="{ hide: !showMenu }"><left-menu :activeKey="activeKey" @select="select" /></div>
 		<!-- 抽屉遮罩 -->
-		<div v-if="showCover && showMenu" @click="showMenu = false" class="cover"></div>
+		<bg-cover :show="showCover && showMenu" :top="60" @click="showMenu = false" />
 	</div>
 </template>
 
@@ -54,7 +54,7 @@ const select = () => {
 
 <style lang="scss">
 .left-window {
-	z-index: 9999;
+	z-index: 333;
 	position: fixed;
 	top: 60px;
 	left: 0;
@@ -64,15 +64,5 @@ const select = () => {
 	&.hide {
 		left: -240px;
 	}
-}
-/* 遮罩 */
-.cover {
-	position: fixed;
-	top: 60px;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	background-color: rgba($color: #000000, $alpha: 0.3);
-	z-index: 6666;
 }
 </style>

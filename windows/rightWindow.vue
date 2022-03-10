@@ -11,7 +11,7 @@
 			<!-- 导航 -->
 			<template v-if="store.state.categorys.length > 0">
 				<el-divider content-position="left">导航</el-divider>
-				<right-menu @select="select" />
+				<right-menu @select="select" :activeKey="activeKey" />
 			</template>
 			<!-- 标签 -->
 			<template v-if="store.state.labels.length > 0">
@@ -24,13 +24,13 @@
 			<div class="footer">
 				<a class="link" href="https://beian.miit.gov.cn/" target="_blank" type="primary">@{{ siteYear }} {{ siteNumber }}</a>
 			</div>
-			<!-- 小屏幕显示菜单按钮 -->
-			<match-media :max-width="768">
-				<el-icon v-if="!showMenu" class="left-icon" color="#8cc5ff" :size="28"><ChevronCircleLeft @click="showRightMenu" /></el-icon>
-			</match-media>
 		</div>
+		<!-- 小屏幕显示菜单按钮 -->
+		<match-media :max-width="768">
+			<el-icon v-if="!showMenu" class="left-icon" color="#a6a6a6" :size="28"><ChevronCircleLeft @click="showRightMenu" /></el-icon>
+		</match-media>
 		<!-- 抽屉遮罩 -->
-		<div v-if="showCover && showMenu" @click="showMenu = false" class="cover"></div>
+		<bg-cover :show="showCover && showMenu" :top="60" @click="showMenu = false" />
 	</div>
 </template>
 
@@ -44,13 +44,19 @@ import { siteName, siteDesc, siteYear, siteNumber, siteQQ } from '@/config/site.
 
 const store = useStore()
 
-uni.$on('showRightMenu', data => {
-	showMenu.value = data.showMenu
-	showCover.value = data.showCover
+uni.$on('setRightStyle', obj => {
+	if (obj.type === 'showRightMenu') {
+		showMenu.value = obj.data.showMenu
+		showCover.value = obj.data.showCover
+	}
+	if (obj.type === 'putRightMenuActiveKey') {
+		activeKey.value = obj.data
+	}
 })
 
 const showMenu = ref(false)
 const showCover = ref(false)
+const activeKey = ref('')
 
 const showRightMenu = () => {
 	showMenu.value = true
@@ -66,28 +72,19 @@ const select = () => {
 
 <style lang="scss">
 .right-window {
-	z-index: 99999;
+	z-index: 333;
+	position: fixed;
+	top: 0;
+	right: 0;
 	width: 300px;
 	height: 100vh;
 	box-shadow: 0 0 10px 4px #999999;
 	background-color: #fcfcfc;
 	padding-top: 30px;
-	position: fixed;
-	top: 0;
-	right: 0;
 	transition: right 0.2s ease;
 	display: flex;
 	flex-direction: column;
 	overflow: scroll;
-	.left-icon {
-		position: fixed;
-		top: 0;
-		right: 10px;
-		height: 100vh;
-		cursor: pointer;
-		z-index: 999;
-		transition: right 0.2s ease;
-	}
 	&.hide {
 		right: -300px;
 	}
@@ -147,13 +144,12 @@ const select = () => {
 		}
 	}
 }
-.cover {
+.left-icon {
+	z-index: 111;
 	position: fixed;
 	top: 0;
-	right: 0;
-	width: 100vw;
+	right: 10px;
 	height: 100vh;
-	background-color: rgba($color: #000000, $alpha: 0.3);
-	z-index: 6666;
+	cursor: pointer;
 }
 </style>

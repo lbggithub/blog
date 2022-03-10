@@ -2,7 +2,7 @@
 	<el-menu :default-active="activeKey" @select="handleSelect">
 		<el-menu-item v-for="(value, key, index) in menus" :index="key">
 			<el-icon><component :is="value.icon" /></el-icon>
-			<span>{{ value.label }}</span>
+			<span class="menu-name">{{ value.label }}</span>
 		</el-menu-item>
 	</el-menu>
 </template>
@@ -27,17 +27,15 @@ const handleSelect = key => {
 .el-menu {
 	width: 240px;
 	height: calc(100vh - (var(--top-window-height)));
-
 	.el-menu-item {
 		padding-left: 40px !important;
-
+		&.is-active,
 		&:hover {
 			color: #409eff;
-			background: none;
+			background: rgba($color: #daebff, $alpha: 0.2);
 		}
-
-		&.is-active {
-			background: #ecf5ff;
+		.menu-name {
+			font-size: 15px;
 		}
 	}
 }

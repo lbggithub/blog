@@ -1,5 +1,6 @@
 <template>
 	<el-checkbox-group :modelValue="props.categorys" @update:modelValue="emit('update:categorys', $event)">
+		<el-checkbox label="日志" size="large" />
 		<el-checkbox v-for="item in store.state.categorys" :label="item.name" size="large" />
 	</el-checkbox-group>
 </template>
