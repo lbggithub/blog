@@ -17,7 +17,7 @@
 			<template v-if="store.state.labels.length > 0">
 				<el-divider content-position="left">标签</el-divider>
 				<div class="tag-box">
-					<el-tag type="info" v-for="item in store.state.labels">{{ item.name }}</el-tag>
+					<el-tag @click="clickLabel(item.name)" :type="activeKey === item.name ? '' : 'info'" v-for="item in store.state.labels">{{ item.name }}</el-tag>
 				</div>
 			</template>
 			<!-- 底部 -->
@@ -67,6 +67,11 @@ const select = () => {
 	if (showCover.value) {
 		showMenu.value = false
 	}
+}
+
+const clickLabel = name => {
+	showMenu.value = false
+	router.redirectTo(`index/index?label=${name}`)
 }
 </script>
 

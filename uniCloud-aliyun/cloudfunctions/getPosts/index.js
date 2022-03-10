@@ -21,6 +21,10 @@ exports.main = async function(event, context) {
 		where.categorys = event.category // 根据分类获取
 	}
 
+	if (event.label) {
+		where.labels = event.label // 根据标签获取
+	}
+
 	let res = await db
 		.collection('posts')
 		.skip((event.currentPage - 1) * event.pageSize)

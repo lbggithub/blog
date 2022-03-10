@@ -25,10 +25,7 @@ import { FortAwesomeAlt, GrinTongueWink, Megaport } from '@vicons/fa'
 import router from '@/utils/router.js'
 
 const props = defineProps({
-	activeKey: {
-		type: String,
-		default: '首页'
-	}
+	activeKey: String
 })
 const emit = defineEmits(['select'])
 
@@ -51,7 +48,7 @@ const menus = [
 
 const handleSelect = key => {
 	emit('select')
-	router.redirectTo(`index/index?c=${key}`)
+	router.redirectTo(`index/index?category=${key}`)
 }
 </script>
 

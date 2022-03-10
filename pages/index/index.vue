@@ -1,6 +1,6 @@
 <template>
 	<div class="main">
-		<span class="navigation-name">{{ category }}</span>
+		<span class="navigation-name">{{ label || category }}</span>
 		<div class="post-list" v-loading="loading">
 			<template v-if="list.length > 0">
 				<postItem :item="item" v-for="item in list" />
@@ -20,16 +20,16 @@ import call from '@/utils/call.js'
 
 // 根据路由判断当前分类
 const category = ref('')
+const label = ref('')
 onLoad(options => {
-	category.value = options.c
+	category.value = options.category || '首页'
+	label.value = options.label
+	// 激活右边菜单
+	uni.$emit('setRightStyle', {
+		type: 'putRightMenuActiveKey',
+		data: label.value || category.value
+	})
 	getList()
-	if (category.value) {
-		// 激活右边菜单
-		uni.$emit('setRightStyle', {
-			type: 'putRightMenuActiveKey',
-			data: category.value
-		})
-	}
 })
 
 // 文章列表
@@ -47,6 +47,7 @@ const getList = () => {
 	call('getPosts', {
 		...pagination.value,
 		category: category.value,
+		label: label.value,
 		fidld: { user_id: false, content: false, html: false }, // 过滤参数
 		status: 1 // 只获取发布状态
 	})
