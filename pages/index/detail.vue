@@ -1,5 +1,6 @@
 <template>
 	<div class="main">
+		<el-skeleton :rows="24" animated :loading="loading" />
 		<div class="main-max-width detail-wrap">
 			<!-- 标题 -->
 			<span class="title">{{ detail.title }}</span>
