@@ -1,5 +1,4 @@
 <script>
-import { useStore } from 'vuex'
 import authToken from '@/utils/authToken.js'
 import setWindowStyle from '@/utils/setWindowStyle.js'
 export default {

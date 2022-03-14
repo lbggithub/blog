@@ -3,9 +3,9 @@
 		<div class="tools">
 			<el-button @click="del" type="danger">删除选中</el-button>
 			<el-button @click="showAdd = true" type="primary">{{ `新增${props.title}` }}</el-button>
-			<el-button @click="store.dispatch(props.getApi)" :icon="SyncAlt" circle style="float: right;" />
+			<el-button @click="store[props.getApi]" :icon="SyncAlt" circle style="float: right;" />
 		</div>
-		<el-table :data="store.state[props.data]" @selection-change="handleSelectionChange" style="width: 100%">
+		<el-table :data="store[props.data]" @selection-change="handleSelectionChange" style="width: 100%">
 			<el-table-column type="selection" width="55" />
 			<el-table-column prop="name" :label="`${props.title}名称`" />
 			<el-table-column prop="created_date" label="创建日期" :formatter="date" />
@@ -22,11 +22,11 @@
 </template>
 
 <script setup>
-import {ref} from 'vue'
-import {useStore} from 'vuex'
-import {ElMessageBox} from 'element-plus'
-import {SyncAlt} from '@vicons/fa'
-import {date} from '@/utils/formatter.js'
+import { ref } from 'vue'
+import { useStore } from '@/stores/index.js'
+import { ElMessageBox } from 'element-plus'
+import { SyncAlt } from '@vicons/fa'
+import { date } from '@/utils/formatter.js'
 import call from '@/utils/call.js'
 import toast from '@/utils/toast.js'
 
@@ -51,9 +51,9 @@ const submit = () => {
 	}
 	loading = true
 	showAdd.value = false
-	call(props.addApi, {name: name.value})
+	call(props.addApi, { name: name.value })
 		.then(res => {
-			store.dispatch(props.getApi)
+			store[props.getApi]()
 			name.value = ''
 			toast.success('保存成功')
 			loading = false
@@ -84,9 +84,9 @@ const del = () => {
 					return
 				}
 				loading = true
-				call(props.delApi, {ids: ids})
+				call(props.delApi, { ids: ids })
 					.then(res => {
-						store.dispatch(props.getApi)
+						store[props.getApi]()
 						toast.success('删除成功')
 						loading = false
 					})

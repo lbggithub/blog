@@ -9,15 +9,15 @@
 				<el-button @click="router.open(siteQQ)" :icon="Qq" circle size="small" />
 			</div>
 			<!-- 导航 -->
-			<template v-if="store.state.categorys.length > 0">
+			<template v-if="store.categorys.length > 0">
 				<el-divider content-position="left">导航</el-divider>
 				<right-menu @select="select" :activeKey="activeKey" />
 			</template>
 			<!-- 标签 -->
-			<template v-if="store.state.labels.length > 0">
+			<template v-if="store.labels.length > 0">
 				<el-divider content-position="left">标签</el-divider>
 				<div class="tag-box">
-					<el-tag @click="clickLabel(item.name)" :type="activeKey === item.name ? '' : 'info'" v-for="item in store.state.labels">{{ item.name }}</el-tag>
+					<el-tag @click="clickLabel(item.name)" :type="activeKey === item.name ? '' : 'info'" v-for="item in store.labels">{{ item.name }}</el-tag>
 				</div>
 			</template>
 			<!-- 底部 -->
@@ -36,7 +36,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '@/stores/index.js'
 import { ChevronCircleLeft, Qq } from '@vicons/fa'
 import rightMenu from './components/rightMenu.vue'
 import router from '@/utils/router.js'

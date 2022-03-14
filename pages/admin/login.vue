@@ -13,7 +13,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '@/stores/index.js'
 import call from '@/utils/call.js'
 import router from '@/utils/router.js'
 import toast from '@/utils/toast.js'
@@ -52,12 +52,12 @@ const submit = async () => {
 const login = () => {
 	call(needRegister.value ? 'register' : 'login', form.value)
 		.then(res => {
-			uni.setStorageSync('uni_id_token', res.token) // 存储 token
+			store.userInfo = { username: res.username }
+			uni.setStorageSync('userInfo', store.userInfo)
+			// 存储 token
+			uni.setStorageSync('uni_id_token', res.token)
 			uni.setStorageSync('uni_id_token_expired', res.tokenExpired)
-			// 存储用户信息
-			store.commit('putUserInfo', {
-				username: res.username
-			})
+
 			router.reLaunch('admin/index').then(() => {
 				toast.success('登陆成功')
 			})

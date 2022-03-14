@@ -9,15 +9,15 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '@/stores/index.js'
 import { ElMessage } from 'element-plus'
 import leftMenu from './components/leftMenu.vue'
-// 在窗体里不可以直接访问云函数，所以使用 vuex 来管理
+// 在窗体里不可以直接访问云函数，所以使用 piana 来管理
 const store = useStore()
 // 获取分类数据、标签数据
-if (store.state.labels.length + store.state.categorys.length === 0) {
-	store.dispatch('getCategorys')
-	store.dispatch('getLabels')
+if (store.labels.length + store.categorys.length === 0) {
+	store.getCategorys()
+	store.getLabels()
 }
 // 这里是一些全局调用
 uni.$on('msg', obj => {

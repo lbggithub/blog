@@ -1,25 +1,33 @@
-// 简单的加解密
-
 // 加密
-const encode = str => {
-	var text = ''
-	str = String(str)
-	for (var i = 0; i < str.length; i++) {
-		var code = str.charCodeAt(i)
-		text += code
-		text += ','
+const encode = (str, xor = 50, hex = 10) => {
+	let resultList = []
+	hex = hex <= 25 ? hex : hex % 25
+	for (let i = 0; i < str.length; i++) {
+		let charCode = str.charCodeAt(i)
+		charCode = (charCode * 1) ^ xor
+		charCode = charCode.toString(hex)
+		resultList.push(charCode)
 	}
-	return text
+	let splitStr = String.fromCharCode(hex + 97)
+	let resultStr = resultList.join(splitStr)
+	return resultStr
 }
+
 // 解密
-const decode = str => {
-	var arr = str.split(','),
-		text = ''
-	for (var i = 0; i < arr.length; i++) {
-		var code = parseInt(arr[i])
-		text += String.fromCharCode(code)
+const decode = (str, xor = 50, hex = 10) => {
+	let strCharList = []
+	let resultList = []
+	hex = hex <= 25 ? hex : hex % 25
+	let splitStr = String.fromCharCode(hex + 97)
+	strCharList = str.split(splitStr)
+	for (let i = 0; i < strCharList.length; i++) {
+		let charCode = parseInt(strCharList[i], hex)
+		charCode = (charCode * 1) ^ xor
+		let strChar = String.fromCharCode(charCode)
+		resultList.push(strChar)
 	}
-	return text
+	let resultStr = resultList.join('')
+	return resultStr
 }
 
 export { encode, decode }

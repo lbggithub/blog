@@ -1,6 +1,5 @@
 import { createSSRApp } from 'vue'
 import App from './App'
-// import store from './store'
 import { createPinia } from 'pinia'
 
 import './static/css/common.css'
@@ -14,8 +13,7 @@ import 'element-plus/theme-chalk/el-message-box.css'
 export function createApp() {
 	const app = createSSRApp(App)
 
-	// app.use(store)
-
+	// pinia 比起 vuex 更轻量级
 	app.use(createPinia())
 
 	return {

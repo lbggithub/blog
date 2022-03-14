@@ -18,7 +18,7 @@
 			<!-- 用户信息 -->
 			<el-dropdown :hide-timeout="75">
 				<div class="username-box">
-					<span class="username">{{ store.state.userInfo.username }}</span>
+					<span class="username">{{ store.userInfo.username }}</span>
 					<el-icon color="#409eff"><AngleDown /></el-icon>
 				</div>
 				<template #dropdown>
@@ -41,7 +41,7 @@
 
 <script setup>
 import { h, ref } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '@/stores/index.js'
 import { Link, Github, AngleDown, ThList } from '@vicons/fa'
 import router from '@/utils/router.js'
 import { siteName } from '@/config/site.js'
@@ -61,7 +61,7 @@ const tools = [
 
 // 退出登陆
 const logout = () => {
-	store.dispatch('logout')
+	store.logout()
 }
 
 // 修改密码
@@ -70,7 +70,7 @@ const newPassword = ref('')
 const loading = ref(false)
 const resetPwd = () => {
 	loading.value = true
-	store.dispatch('resetPwd', newPassword.value.trim()).then(() => {
+	store.resetPwd(newPassword.value.trim()).then(() => {
 		newPassword.value = ''
 		showResetPwd.value = false
 		loading.value = false

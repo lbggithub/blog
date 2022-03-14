@@ -15,11 +15,11 @@
 
 <script setup>
 import { ref } from 'vue'
-// import { useStore } from 'vuex'
+import { useStore } from '@/stores/index.js'
 import call from '@/utils/call.js'
 import toast from '@/utils/toast.js'
 
-// const store = useStore()
+const store = useStore()
 
 // 双向绑定 v-model:labels
 const props = defineProps({
@@ -34,13 +34,13 @@ const updateValue = labels => {
 		call('addLabel', { name: lastVal }).then(res => {
 			optionsLables.value.push(lastVal)
 			toast.success(`${lastVal} 标签成功记录入库`)
-			store.dispatch('getLabels') // 刷新标签库
+			store.getLabels() // 刷新标签库
 		})
 	}
 }
 
 const optionsLables = ref([]) // 获取库中的标签
-optionsLables.value = store.state.labels.map(i => {
+optionsLables.value = store.labels.map(i => {
 	return i.name
 })
 </script>

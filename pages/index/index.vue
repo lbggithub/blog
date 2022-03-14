@@ -83,13 +83,13 @@ const lock = item => {
 	showLock.value = true
 }
 const unlock = () => {
-	let decodePassword = decode(currentItem.value.password)
-	if (password.value === '123456') {
+	if (password.value === decode(currentItem.value.password)) {
+		showLock.value = false
 		router.navigateTo(`index/detail?id=${currentItem.value._id}`)
 	} else {
 		toast.error('密码不正确～')
-		password.value = ''
 	}
+	password.value = ''
 }
 </script>
 

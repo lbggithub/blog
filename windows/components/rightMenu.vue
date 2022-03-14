@@ -5,12 +5,12 @@
 				<el-icon><component :is="menu.icon" /></el-icon>
 				<span class="menu-name">{{ menu.name }}</span>
 			</el-menu-item>
-			<el-sub-menu v-else-if="store.state.categorys.length > 0" :index="menu.name">
+			<el-sub-menu v-else-if="store.categorys.length > 0" :index="menu.name">
 				<template #title>
 					<el-icon><component :is="menu.icon" /></el-icon>
 					<span class="menu-name">{{ menu.name }}</span>
 				</template>
-				<el-menu-item v-for="category in store.state.categorys" :index="category.name">
+				<el-menu-item v-for="category in store.categorys" :index="category.name">
 					<span class="menu-name">{{ category.name }}</span>
 				</el-menu-item>
 			</el-sub-menu>
@@ -20,7 +20,7 @@
 
 <script setup>
 import { h, ref } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '@/stores/index.js'
 import { FortAwesomeAlt, GrinTongueWink, Megaport } from '@vicons/fa'
 import router from '@/utils/router.js'
 
