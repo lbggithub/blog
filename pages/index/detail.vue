@@ -70,7 +70,7 @@ const clickTag = (tag, name) => {
 	.tag-box {
 		display: flex;
 		flex-wrap: wrap;
-		margin: 20px 0;
+		margin: 30px 0 20px;
 		.el-tag {
 			margin: 5px 10px 5px 0;
 		}

@@ -70,7 +70,7 @@ const select = () => {
 }
 
 const clickLabel = name => {
-	showMenu.value = false
+	select()
 	router.redirectTo(`index/index?label=${name}`)
 }
 </script>
