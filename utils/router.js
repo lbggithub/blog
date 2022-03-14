@@ -7,9 +7,9 @@ const router = {
 	open: url => {
 		window.open(url, '_blank')
 	},
-	navigateto: url => {
+	navigateTo: url => {
 		return new Promise((resolve) => {
-			uni.navigateto({
+			uni.navigateTo({
 				url: `/pages/${url}`,
 				complete() {
 					resolve()

@@ -1,14 +1,22 @@
 <template>
 	<div class="main">
 		<span class="navigation-name">{{ label || category }}</span>
-		<div class="post-list" v-loading="loading">
+		<div class="main-max-width post-list" v-loading="loading">
 			<template v-if="list.length > 0">
-				<postItem :item="item" v-for="item in list" />
+				<postItem :item="item" v-for="item in list" @lock="lock" />
 				<!-- 分页 -->
 				<bg-pagination v-model:pagination="pagination" @pageChange="getList" />
 			</template>
 			<el-empty v-else-if="!loading" description="这里暂时没有数据～"></el-empty>
 		</div>
+		<!-- 加密文章输入密码弹框 -->
+		<el-dialog v-model="showLock" title="这篇文章加密啦~" top="30vh" destroy-on-close>
+			<el-input v-model="password" placeholder="请输入密码"></el-input>
+			<template #footer>
+				<el-button @click="showLock = false">取消</el-button>
+				<el-button type="primary" :disabled="!password" @click="unlock">确认</el-button>
+			</template>
+		</el-dialog>
 	</div>
 </template>
 
@@ -17,6 +25,9 @@ import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import postItem from './components/postItem.vue'
 import call from '@/utils/call.js'
+import router from '@/utils/router.js'
+import toast from '@/utils/toast.js'
+import { decode } from '@/utils/endeCode.js'
 
 // 根据路由判断当前分类
 const category = ref('')
@@ -62,6 +73,24 @@ const getList = () => {
 			loading.value = false
 		})
 }
+
+// 加解密
+const showLock = ref(false)
+const password = ref('')
+const currentItem = ref({})
+const lock = item => {
+	currentItem.value = item
+	showLock.value = true
+}
+const unlock = () => {
+	let decodePassword = decode(currentItem.value.password)
+	if (password.value === '123456') {
+		router.navigateTo(`index/detail?id=${currentItem.value._id}`)
+	} else {
+		toast.error('密码不正确～')
+		password.value = ''
+	}
+}
 </script>
 
 <style lang="scss">
@@ -72,10 +101,8 @@ const getList = () => {
 	justify-content: center;
 	font-size: 20px;
 	line-height: 30px;
-	font-weight: bold;
 }
 .post-list {
-	max-width: 968px;
 	margin-top: 30px;
 	padding-bottom: 20px;
 	flex-grow: 1;

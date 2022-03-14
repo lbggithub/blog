@@ -15,11 +15,11 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useStore } from 'vuex'
+// import { useStore } from 'vuex'
 import call from '@/utils/call.js'
 import toast from '@/utils/toast.js'
 
-const store = useStore()
+// const store = useStore()
 
 // 双向绑定 v-model:labels
 const props = defineProps({

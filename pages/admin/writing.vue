@@ -21,7 +21,7 @@
 			<el-form label-position="top">
 				<el-form-item label="发表日期"><el-date-picker v-model="form.created_date" type="date" /></el-form-item>
 				<el-form-item label="摘要"><el-input v-model="form.abstract" type="textarea" placeholder="不填写则截取内容前30个字符" /></el-form-item>
-				<el-form-item label="访问密码"><el-input v-model="form.password" placeholder="给你的文章加个密" /></el-form-item>
+				<el-form-item label="访问密码"><el-input type="password" show-password v-model="form.decodePassword" placeholder="给你的文章加个密" /></el-form-item>
 				<el-form-item label="所属分类"><get-categorys v-model:categorys="form.categorys" /></el-form-item>
 				<el-form-item label="标签"><get-labels v-model:labels="form.labels" /></el-form-item>
 				<el-form-item label="浏览量（为了数据好看点）"><el-input-number v-model="form.page_view" :min="0" :step="100" /></el-form-item>
@@ -49,6 +49,7 @@ import getCategorys from './components/getCategorys.vue'
 import getLabels from './components/getLabels.vue'
 import call from '@/utils/call.js'
 import toast from '@/utils/toast.js'
+import { encode, decode } from '@/utils/endeCode.js'
 
 const showSetting = ref(false)
 
@@ -63,12 +64,25 @@ const initForm = {
 	page_view: 0, // 浏览量
 	sort: 0, // 排序值
 	thumbnail: '', // 缩略图
-	password: '', // 访问密码
+	decodePassword: '', // 访问密码
 	status: 0, // 1:已发布，2:草稿箱，3:已删除
 	created_date: new Date() // 发表日期
 }
 let autoTitle = '' // 标题为空时，以当前时间作为标题
 const form = ref({ ...initForm })
+
+// 如果url中带有id，获取文章详情，用于编辑
+onLoad(option => {
+	if (option.id) {
+		call('getPostDetail', { id: option.id, fidld: { user_id: false } }).then(res => {
+			form.value = res.data
+			// 密码解密
+			if (form.value.password) {
+				form.value.decodePassword = decode(form.value.password)
+			}
+		})
+	}
+})
 
 const editorRef = ref()
 const loading = ref(false)
@@ -95,11 +109,16 @@ const submit = (status, msg) => {
 			.replace(/>/g, ' ')
 		form.value.abstract = str.substring(0, 30)
 	}
+	// 自动生产标题
 	if (form.value.title === autoTitle) {
 		autoTitle = `保存于 ${dayjs(currentTime).format('YYYY-MM-DD')}`
 		form.value.title = autoTitle
 	} else {
 		autoTitle = ''
+	}
+	// 密码加密
+	if (form.value.decodePassword) {
+		form.value.password = encode(form.value.decodePassword)
 	}
 	// 入库
 	call('addPosts', form.value)
@@ -125,15 +144,6 @@ const submit = (status, msg) => {
 const selected = item => {
 	form.value.thumbnail = item.url
 }
-
-// 如果url中带有id，获取文章详情，用于编辑
-onLoad(option => {
-	if (option.id) {
-		call('getPostDetail', { id: option.id, fidld: { user_id: false } }).then(res => {
-			form.value = res.data
-		})
-	}
-})
 
 // 获取附件库组件暴露的方法和参数
 const attachmentRef = ref()

@@ -1,7 +1,6 @@
 /**
  * 简单的封装 uniCloud.callFunction
  */
-import store from '@/store'
 import toast from '@/utils/toast.js'
 
 const API_ERROR = '网络请求异常，请稍后重试'

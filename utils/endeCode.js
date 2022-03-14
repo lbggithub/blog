@@ -2,24 +2,24 @@
 
 // 加密
 const encode = str => {
-	var encode = ''
+	var text = ''
 	str = String(str)
 	for (var i = 0; i < str.length; i++) {
 		var code = str.charCodeAt(i)
-		encode += code
-		encode += ','
+		text += code
+		text += ','
 	}
-	return encode
+	return text
 }
 // 解密
 const decode = str => {
 	var arr = str.split(','),
-		decode = ''
+		text = ''
 	for (var i = 0; i < arr.length; i++) {
 		var code = parseInt(arr[i])
-		decode += String.fromCharCode(code)
+		text += String.fromCharCode(code)
 	}
-	return decode
+	return text
 }
 
 export { encode, decode }
