@@ -34,6 +34,7 @@ const getDetail = id => {
 	loading.value = true
 	call('getPostDetail', {
 		id: id,
+		addPageView: true,
 		fidld: { password: false, content: false } // 过滤参数
 	}).then(res => {
 		loading.value = false
