@@ -14,10 +14,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { useStore } from '@/stores/index.js'
-import call from '@/utils/call.js'
-import toast from '@/utils/toast.js'
 
 const store = useStore()
 

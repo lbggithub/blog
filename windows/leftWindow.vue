@@ -8,7 +8,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { useStore } from '@/stores/index.js'
 import { ElMessage } from 'element-plus'
 import leftMenu from './components/leftMenu.vue'

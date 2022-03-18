@@ -4,13 +4,14 @@
 			<span class="other-item-text">{{ date(created_date) }}</span>
 		</div>
 		<div class="other-item">
-			<el-icon color="#666666"><Eye /></el-icon>
+			<Icon color="#666666"><Eye /></Icon>
 			<span class="other-item-text">{{ page_view }}</span>
 		</div>
 	</div>
 </template>
 
 <script setup>
+import { Icon } from '@vicons/utils'
 import { Eye } from '@vicons/fa'
 import { date } from '@/utils/formatter.js'
 
@@ -33,7 +34,7 @@ defineProps({
 			line-height: 15px;
 			color: #666666;
 		}
-		.el-icon {
+		.xicon {
 			margin-right: 4px;
 		}
 	}

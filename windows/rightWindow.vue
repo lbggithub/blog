@@ -6,7 +6,7 @@
 			<div class="site">
 				<span class="name">{{ siteName }}</span>
 				<span class="desc">{{ siteDesc }}</span>
-				<el-button @click="router.open(siteQQ)" :icon="Qq" circle size="small" />
+				<el-button @click="openQQ" :icon="Qq" circle size="small" />
 			</div>
 			<!-- 导航 -->
 			<template v-if="store.categorys.length > 0">
@@ -26,8 +26,10 @@
 			</div>
 		</div>
 		<!-- 小屏幕显示菜单按钮 -->
-		<match-media :max-width="768">
-			<el-icon v-if="!showMenu" class="left-icon" color="#a6a6a6" :size="28"><ChevronCircleLeft @click="showRightMenu" /></el-icon>
+		<match-media v-if="!showMenu" :max-width="768">
+			<div class="left-icon">
+				<Icon color="#a6a6a6" :size="28"><ChevronCircleLeft @click="showRightMenu" /></Icon>
+			</div>
 		</match-media>
 		<!-- 抽屉遮罩 -->
 		<bg-cover :show="showCover && showMenu" :top="60" @click="showMenu = false" />
@@ -35,11 +37,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { useStore } from '@/stores/index.js'
+import { Icon } from '@vicons/utils'
 import { ChevronCircleLeft, Qq } from '@vicons/fa'
 import rightMenu from './components/rightMenu.vue'
-import router from '@/utils/router.js'
 import { siteName, siteDesc, siteYear, siteNumber, siteQQ } from '@/config/site.js'
 
 const store = useStore()
@@ -72,6 +73,10 @@ const select = () => {
 const clickLabel = name => {
 	select()
 	router.redirectTo(`index/index?label=${name}`)
+}
+
+const openQQ = () => {
+	router.open(siteQQ)
 }
 </script>
 
@@ -151,6 +156,8 @@ const clickLabel = name => {
 }
 .left-icon {
 	z-index: 99999;
+	display: flex;
+	align-items: center;
 	position: fixed;
 	top: 0;
 	right: 10px;

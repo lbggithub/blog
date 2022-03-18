@@ -16,10 +16,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import call from '@/utils/call.js'
-import toast from '@/utils/toast.js'
-
 const showModal = ref(false)
 const images = ref([])
 

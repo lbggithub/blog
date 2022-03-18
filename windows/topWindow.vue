@@ -8,18 +8,18 @@
 			<!-- 小屏幕显示菜单按钮 -->
 			<match-media :max-width="768">
 				<div class="menu-icon">
-					<el-icon :size="18" @click="showLeftMenu"><ThList /></el-icon>
+					<Icon :size="18" @click="showLeftMenu"><ThList /></Icon>
 				</div>
 			</match-media>
 		</div>
 		<div class="top-window-right">
 			<!-- 右侧工具栏 -->
-			<el-button @click="router.open(item.url)" :icon="item.icon" v-for="item in tools" circle />
+			<el-button @click="toUrl(item.url)" :icon="item.icon" v-for="item in tools" circle />
 			<!-- 用户信息 -->
 			<el-dropdown :hide-timeout="75">
 				<div class="username-box">
 					<span class="username">{{ store.userInfo.username }}</span>
-					<el-icon color="#409eff"><AngleDown /></el-icon>
+					<Icon color="#409eff"><AngleDown /></Icon>
 				</div>
 				<template #dropdown>
 					<el-dropdown-menu>
@@ -40,10 +40,9 @@
 </template>
 
 <script setup>
-import { h, ref } from 'vue'
 import { useStore } from '@/stores/index.js'
+import { Icon } from '@vicons/utils'
 import { Link, Github, AngleDown, ThList } from '@vicons/fa'
-import router from '@/utils/router.js'
 import { siteName } from '@/config/site.js'
 
 const store = useStore()
@@ -86,6 +85,10 @@ const showLeftMenu = () => {
 			showCover: true
 		}
 	})
+}
+
+const toUrl = url => {
+	router.open(url)
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<div class="writing-header">
+				<div class="writing-header">
 			<span class="title">{{ form.title || '新文章' }}</span>
 			<div class="btns">
 				<el-button type="warning" @click="submit(2, '保存成功')" :loading="loading">保存草稿</el-button>
@@ -11,7 +11,7 @@
 		</div>
 		<el-divider />
 		<!-- 标题 -->
-		<el-input v-model="form.title" placeholder="请输入文章标题" maxlength="30" />
+				<el-input v-model="form.title" placeholder="请输入文章标题" maxlength="30" />
 		<!-- 附件 -->
 		<bg-attachment ref="attachmentRef" @select="selected" />
 		<!-- 内容 -->
@@ -43,12 +43,9 @@
 
 <script setup>
 import { onLoad } from '@dcloudio/uni-app'
-import { ref } from 'vue'
 import dayjs from 'dayjs'
 import getCategorys from './components/getCategorys.vue'
 import getLabels from './components/getLabels.vue'
-import call from '@/utils/call.js'
-import toast from '@/utils/toast.js'
 import { encode, decode } from '@/utils/endeCode.js'
 
 const showSetting = ref(false)

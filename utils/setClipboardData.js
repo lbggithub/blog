@@ -1,8 +1,6 @@
 /**
  * 设置系统剪贴板的内容
  */
-import toast from '@/utils/toast.js'
-
 function setClipboardData(content) {
 	// #ifdef H5
 	const textString = content.toString()

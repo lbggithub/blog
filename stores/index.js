@@ -1,7 +1,4 @@
 import { defineStore } from 'pinia'
-import call from '@/utils/call.js'
-import router from '@/utils/router.js'
-import toast from '@/utils/toast.js'
 
 const userInfo = { username: '' } // 定义用户信息
 

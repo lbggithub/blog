@@ -2,12 +2,12 @@
 	<el-menu :default-active="props.activeKey" @select="handleSelect">
 		<template v-for="menu in menus">
 			<el-menu-item v-if="menu.name !== '分类'" :index="menu.name">
-				<el-icon><component :is="menu.icon" /></el-icon>
+				<Icon :size="16"><component :is="menu.icon" /></Icon>
 				<span class="menu-name">{{ menu.name }}</span>
 			</el-menu-item>
 			<el-sub-menu v-else-if="store.categorys.length > 0" :index="menu.name">
 				<template #title>
-					<el-icon><component :is="menu.icon" /></el-icon>
+					<Icon :size="16"><component :is="menu.icon" /></Icon>
 					<span class="menu-name">{{ menu.name }}</span>
 				</template>
 				<el-menu-item v-for="category in store.categorys" :index="category.name">
@@ -19,10 +19,9 @@
 </template>
 
 <script setup>
-import { h, ref } from 'vue'
+import { Icon } from '@vicons/utils'
 import { useStore } from '@/stores/index.js'
 import { FortAwesomeAlt, GrinTongueWink, Megaport } from '@vicons/fa'
-import router from '@/utils/router.js'
 
 const props = defineProps({
 	activeKey: String
@@ -61,6 +60,11 @@ const handleSelect = key => {
 	}
 	.menu-name {
 		font-size: 15px;
+	}
+}
+.el-menu {
+	.xicon {
+		margin-right: 10px;
 	}
 }
 </style>

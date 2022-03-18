@@ -1,16 +1,38 @@
-const toast = {}
-
-const methods = ['success', 'warning', 'info', 'error']
-methods.forEach((item) => {
-	toast[item] = (msg) => {
+export const toast = {
+	success: msg => {
 		uni.$emit('msg', {
 			type: 'ElMessage',
 			data: {
 				message: msg,
-				type: item
+				type: 'success'
 			}
 		})
-	}
-})
-
-export default toast
+	},
+	warning: msg => {
+		uni.$emit('msg', {
+			type: 'ElMessage',
+			data: {
+				message: msg,
+				type: 'warning'
+			}
+		})
+	},
+	info: msg => {
+		uni.$emit('msg', {
+			type: 'ElMessage',
+			data: {
+				message: msg,
+				type: 'info'
+			}
+		})
+	},
+	error: msg => {
+		uni.$emit('msg', {
+			type: 'ElMessage',
+			data: {
+				message: msg,
+				type: 'error'
+			}
+		})
+	},
+}

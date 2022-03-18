@@ -19,11 +19,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import itemOther from './components/itemOther.vue'
-import call from '@/utils/call.js'
-import router from '@/utils/router.js'
 
 onLoad(options => {
 	getDetail(options.id)

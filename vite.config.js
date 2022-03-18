@@ -12,6 +12,15 @@ export default defineConfig({
 		uni(),
 		AutoImport({
 			resolvers: [ElementPlusResolver()],
+			imports: [
+				'vue',
+				'vue-router',
+				{
+					'@/utils/call': ['call'],
+					'@/utils/router': ['router'],
+					'@/utils/toast': ['toast']
+				}
+			]
 		}),
 		Components({
 			resolvers: [ElementPlusResolver()],

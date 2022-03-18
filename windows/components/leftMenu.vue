@@ -1,17 +1,15 @@
 <template>
 	<el-menu :default-active="activeKey" @select="handleSelect">
 		<el-menu-item v-for="(value, key, index) in menus" :index="key">
-			<el-icon><component :is="value.icon" /></el-icon>
+			<Icon :size="16"><component :is="value.icon" /></Icon>
 			<span class="menu-name">{{ value.label }}</span>
 		</el-menu-item>
 	</el-menu>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { Icon } from '@vicons/utils'
 import { menus } from '@/config/menus.js'
-import router from '@/utils/router.js'
-
 const props = defineProps({
 	activeKey: String
 })
@@ -37,6 +35,11 @@ const handleSelect = key => {
 		.menu-name {
 			font-size: 15px;
 		}
+	}
+}
+.el-menu {
+	.xicon {
+		margin-right: 10px;
 	}
 }
 </style>

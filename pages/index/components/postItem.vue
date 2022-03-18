@@ -10,7 +10,6 @@
 </template>
 
 <script setup>
-import router from '@/utils/router.js'
 import itemOther from './itemOther.vue'
 
 const props = defineProps({

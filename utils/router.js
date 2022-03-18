@@ -3,7 +3,7 @@
  */
 import authToken from '@/utils/authToken.js'
 
-const router = {
+export const router = {
 	open: url => {
 		window.open(url, '_blank')
 	},
@@ -56,5 +56,3 @@ const router = {
 		})
 	}
 }
-
-export default router

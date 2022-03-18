@@ -21,12 +21,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import postItem from './components/postItem.vue'
-import call from '@/utils/call.js'
-import router from '@/utils/router.js'
-import toast from '@/utils/toast.js'
 import { decode } from '@/utils/endeCode.js'
 
 // 根据路由判断当前分类

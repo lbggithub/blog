@@ -44,13 +44,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import { SyncAlt } from '@vicons/fa'
 import { date, arr } from '@/utils/formatter.js'
-import call from '@/utils/call.js'
-import router from '@/utils/router.js'
-import toast from '@/utils/toast.js'
 
 // 定义参数
 const tableData = ref([]) // 文章列表

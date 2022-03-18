@@ -4,7 +4,7 @@
 			<div v-for="item in statistics" class="box">
 				<span class="label">{{ item.label }}</span>
 				<div class="value-box">
-					<el-icon><component :is="item.icon" /></el-icon>
+					<Icon><component :is="item.icon" /></Icon>
 					<span class="value">{{ item.value }}</span>
 				</div>
 			</div>
@@ -13,10 +13,9 @@
 </template>
 
 <script setup>
-import { h, ref } from 'vue'
+import { Icon } from '@vicons/utils'
 import { BookmarkRegular, EyeRegular, CalendarCheckRegular } from '@vicons/fa'
 import dayjs from 'dayjs'
-import call from '@/utils/call.js'
 
 // 计算日期
 const date = dayjs(new Date()).diff(dayjs('2019-7-22'), 'day')

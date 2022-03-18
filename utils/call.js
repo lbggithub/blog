@@ -1,15 +1,13 @@
 /**
  * 简单的封装 uniCloud.callFunction
  */
-import toast from '@/utils/toast.js'
-
 const API_ERROR = '网络请求异常，请稍后重试'
 
 /**
  * @param string name 云函数名称
  * @param object data 携带参数
  */
-function call(name = '', data = {}) {
+export function call(name = '', data = {}) {
 	return new Promise((resolve, reject) => {
 		uniCloud.callFunction({
 			name: name,
@@ -30,5 +28,3 @@ function call(name = '', data = {}) {
 		})
 	})
 }
-
-export default call

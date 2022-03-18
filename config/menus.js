@@ -1,4 +1,3 @@
-import { h } from 'vue'
 import { TachometerAlt, Table, PenSquare, Bars, Tags } from '@vicons/fa'
 
 export const menus = {
@@ -15,12 +14,12 @@ export const menus = {
 	posts: {
 		label: '文章列表',
 		page: 'pages/admin/posts',
-		icon: h(Table)
+		icon: h(Bars)
 	},
 	categorys: {
 		label: '分类列表',
 		page: 'pages/admin/categorys',
-		icon: h(Bars)
+		icon: h(Table)
 	},
 	labels: {
 		label: '标签库',

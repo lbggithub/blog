@@ -1,0 +1,1 @@
+{ "bsonType": "object", "properties": { "_id": { "description": "ID，系统自动生成" }, "name": { "description": "附件名称" }, "size": { "description": "附件大小" }, "type": { "description": "附件格式" }, "fileType": { "description": "附件类型" }, "url": { "description": "附件地址" }, "cloudPath": { "description": "云文件名" }, "created_date": { "bsonType": "timestamp", "description": "创建时间" } } }

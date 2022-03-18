@@ -1,0 +1,7 @@
+{
+	"bsonType": "object",
+	"required": ["title",
+		"created_date"
+	],
+	"properties": { "_id": { "description": "ID，系统自动生成" }, "user_id": { "description": "发布者 ID" }, "title": { "bsonType": "string", "description": "文章标题" }, "abstract": { "bsonType": "string", "description": "文章摘要" }, "categorys": { "bsonType": "array", "description": "文章分类，可多选，直接记录分类名" }, "labels": { "bsonType": "array", "description": "文章标签，可多选，直接记录标签名" }, "page_view": { "bsonType": "number", "description": "浏览量" }, "sort": { "bsonType": "number", "description": "排序值，越大越靠前" }, "created_date": { "bsonType": "timestamp", "description": "发布时间，可手动选择" }, "updated_date": { "bsonType": "timestamp", "description": "更新时间，系统自动生成" }, "status": { "bsonType": "number", "description": "文章状态 1:已发布，2:草稿箱" }, "password": { "bsonType": "string", "description": "访问密码，为空则不需要密码直接访问" }, "thumbnail": { "bsonType": "string", "description": "封面图" }, "content": { "bsonType": "string", "description": "内容 markdown 格式" }, "html": { "bsonType": "string", "description": "内容 html 格式" }, "is_del": { "bsonType": "bool", "description": "是否已删除" } }
+}

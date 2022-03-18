@@ -20,4 +20,10 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+/* 公共样式 */
+@import './static/css/common.css';
+@import 'github-markdown-css/github-markdown-light.css';
+@import 'element-plus/theme-chalk/el-message.css';
+@import 'element-plus/theme-chalk/el-message-box.css';
+</style>

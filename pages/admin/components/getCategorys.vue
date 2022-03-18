@@ -6,9 +6,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { useStore } from '@/stores/index.js'
-import call from '@/utils/call.js'
 
 const store = useStore() // 获取分类库中的分类
 

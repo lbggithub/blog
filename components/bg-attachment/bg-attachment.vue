@@ -26,7 +26,7 @@
 				<el-divider />
 				<div class="label-box">
 					<span vlass="label">{{ item.label }}</span>
-					<el-icon v-if="item.copy" @click="setClipboardData(item.value)" color="#1890ff"><CopyRegular /></el-icon>
+					<Icon v-if="item.copy" @click="setClipboardData(item.value)" color="#1890ff"><CopyRegular /></Icon>
 				</div>
 				<span class="value">{{ item.value }}</span>
 			</div>
@@ -42,11 +42,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { Icon } from '@vicons/utils'
 import { CopyRegular } from '@vicons/fa'
 import dayjs from 'dayjs'
-import call from '@/utils/call.js'
-import toast from '@/utils/toast.js'
 import setClipboardData from '@/utils/setClipboardData.js'
 
 const emit = defineEmits(['select'])
