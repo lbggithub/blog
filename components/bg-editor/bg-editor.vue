@@ -1,16 +1,14 @@
 <template>
-	<div class="bg-editor">
+	<div class="bg-editor" :class="{ expand: expand, 'only-edit': onlyShow === 'edit', 'only-html': onlyShow === 'html' }">
 		<!-- 工具栏 -->
 		<div class="editor-tools">
-			<!-- 操作按钮 -->
+			<!-- 撤回 -->
 			<div @click="undo" class="tool-box">
 				<Icon :size="16"><UndoAlt /></Icon>
 			</div>
-			<div @click="redo" class="tool-box">
+			<!-- 复原 -->
+			<div @click="redo" class="tool-box divider-r">
 				<Icon :size="16"><RedoAlt /></Icon>
-			</div>
-			<div @click="expand = !expand" class="tool-box divider">
-				<Icon :size="16"><ExpandArrowsAlt /></Icon>
 			</div>
 			<!-- 样式按钮 -->
 			<div @click="setStyle(tool)" v-for="tool in tools" class="tool-box">
@@ -19,20 +17,30 @@
 					<span @click.stop="setStyle(item)" v-for="item in tool.list" class="item">{{ item.name }}</span>
 				</div>
 			</div>
+			<!-- 全屏 -->
+			<div @click="expand = !expand" class="tool-box divider-l">
+				<Icon :size="16"><ExpandArrowsAlt /></Icon>
+			</div>
+			<!-- 只显示编辑区 -->
+			<div @click="changeShow('edit')" class="tool-box">
+				<Icon :size="16"><WindowMaximizeRegular /></Icon>
+			</div>
+			<!-- 只显示 html 区 -->
+			<div @click="changeShow('html')" class="tool-box">
+				<Icon :size="16"><WindowMaximize /></Icon>
+			</div>
 		</div>
-		<!-- 编辑区 -->
 		<div class="editor-main">
-			<textarea
-				v-model="input"
-				:focus="focus"
-				:selection-start="selectionStart"
-				:selection-end="selectionEnd"
-				@blur="blur"
-				class="editor-textarea"
-				placeholder="在这里输入正文"
-				maxlength="-1"
-			/>
-			<div v-html="compiledMarkdown" class="markdown-body editor-html"></div>
+			<!-- 编辑区 -->
+			<scroll-view @scroll="scroll" :scroll-top="scrollTop" scroll-y class="editor-textarea">
+				<textarea :value="inputValue" :focus="focus" :cursor="cursor" @input="input" @blur="blur" placeholder="在这里输入正文" maxlength="-1" class="textarea" auto-height />
+			</scroll-view>
+			<!-- 展示区 -->
+			<scroll-view @scroll="scroll" :scroll-top="scrollTop" scroll-y class="editor-html"><div v-html="compiledMarkdown" class="markdown-body"></div></scroll-view>
+			<!-- 关闭按钮 -->
+			<div v-if="onlyShow === 'html'" @click="changeShow('html')" class="close-html">
+				<Icon :size="16" color="#666666"><Times /></Icon>
+			</div>
 		</div>
 		<modal v-model:show="showModal.show" :title="showModal.title" width="400px" @confirm="confirmModal">
 			<toolform v-if="showModal.show" :type="showModal.show" ref="formRef" />
@@ -45,7 +53,7 @@
 <script setup>
 // 迫于找不到合适且兼容 uniapp 的，所以自己写了一个 markdown 编辑器，为了分离出去，我尽量不使用 element 的组件（踩了很多坑的，不容易啊）
 import { Icon } from '@vicons/utils'
-import { UndoAlt, RedoAlt, ExpandArrowsAlt } from '@vicons/fa'
+import { UndoAlt, RedoAlt, ExpandArrowsAlt, WindowMaximizeRegular, WindowMaximize, Times } from '@vicons/fa'
 import markdownIt from 'markdown-it'
 import markdownItSub from 'markdown-it-sub'
 import markdownItSup from 'markdown-it-sup'
@@ -56,42 +64,72 @@ import toolform from './toolform.vue'
 
 // 初始化 markdown-it
 var md = new markdownIt({
-	breaks: true
+	breaks: true,
+	html: true
 })
 md.use(markdownItSub)
 md.use(markdownItSup)
 md.use(markdownItMath)
 
-// 操作按钮
-const actions = [
-	{
-		icon: h(UndoAlt),
-		action: 'undo'
-	}
-]
-
 const expand = ref(false) // 全屏控制
-const historys = [''] // 操作记录
+const onlyShow = ref('') // 只显示编辑区或者 html 区 值：edit / html
+// 切换显示模式
+const changeShow = value => {
+	if (onlyShow.value === value) {
+		onlyShow.value = ''
+	} else {
+		onlyShow.value = value
+	}
+}
+
+const historys = [] // 操作历史
 let index = 0 // 当前操作位置
+
+const inputValue = ref('') // textarea 输入的值
+const input = e => {
+	inputValue.value = e.detail.value
+	putHistory()
+}
+
+// 记录操作
+const putHistory = () => {
+	historys.push(inputValue.value)
+	// 防止占用太多内存，只记录10条操作
+	index = historys.length - 1
+	if (index > 10) {
+		historys.shift()
+		index--
+	}
+}
 // 撤回
 const undo = () => {
-	
+	if (index > 0) {
+		inputValue.value = historys[index - 1]
+		index--
+	}
 }
 // 复原
 const redo = () => {
-	input.value = historys[index]
+	if (index < historys.length - 1) {
+		inputValue.value = historys[index + 1]
+		index++
+	}
 }
 
-// 选中附件
-const attachmentRef = ref()
-const selected = item => {
-	setStyle({ start: `![${item.name}](${item.url})\n` })
+// 监听容器滚动，实现同步滚动
+let scrollTop = ref(0)
+const scroll = (e, type) => {
+	scrollTop.value = e.detail.scrollTop
 }
+
+// 获取 html 内容
+const compiledMarkdown = computed(() => {
+	return md.render(inputValue.value)
+})
 
 // 插入语法和光标
 const focus = ref(false)
-const selectionStart = ref(-1)
-const selectionEnd = ref(-1)
+const cursor = ref(-1)
 const setStyle = async tool => {
 	if (tool.list) {
 		return
@@ -130,30 +168,29 @@ const putSelection = (tool, start, end) => {
 		count = start + tool.start.length // 单标签
 	}
 	// 加个延迟，不然光标会跑到最后
-	setTimeout(() => {
+	setTimeout(async () => {
 		focus.value = true
-		selectionStart.value = count
-		selectionEnd.value = count
+		cursor.value = count
+		await nextTick()
+		scrollTop.value = scrollTop.value + 0.01 // 还原滚动条位置
 	}, 100)
 }
 
 // 在字符串头尾插入 markdown 语法
 const putStyle = (tool, start, end) => {
-	let text = input.value
+	let text = inputValue.value
 	if (tool.end) {
-		input.value = text.slice(0, start) + tool.start + text.slice(start, end) + tool.end + text.slice(end)
+		inputValue.value = text.slice(0, start) + tool.start + text.slice(start, end) + tool.end + text.slice(end)
 	} else {
-		input.value = text.slice(0, start) + tool.start + text.slice(start)
+		inputValue.value = text.slice(0, start) + tool.start + text.slice(start)
 	}
-	historys.push(input.value) // 记录操作
-	console.log(historys)
+	putHistory()
 }
 
 // 恢复光标位置
 const blur = () => {
 	focus.value = false
-	selectionStart.value = -1
-	selectionEnd.value = -1
+	cursor.value = -1
 }
 
 // 弹窗组件
@@ -166,41 +203,90 @@ const confirmModal = () => {
 	setStyle(formRef.value.getStyle())
 }
 
-// 获取 html 内容
-const input = ref('') // textarea 输入的值
-const compiledMarkdown = computed(() => {
-	return md.render(input.value)
-})
-
-// 把获取 html 的方法暴露给父组件
-const getHtml = () => {
-	return compiledMarkdown.value
+// 选中附件
+const attachmentRef = ref()
+const selected = item => {
+	setStyle({ start: `![${item.name}](${item.url})\n` })
 }
-defineExpose({ getHtml })
+
+// 把以下方法暴露给父组件
+const setValue = value => {
+	inputValue.value = value // 初始化输入值
+	putHistory()
+}
+const getHtml = () => {
+	return compiledMarkdown.value // 返回 html 内容
+}
+const getValue = () => {
+	return inputValue.value // 返回输入的内容
+}
+defineExpose({ setValue, getHtml, getValue })
 </script>
 
 <style lang="scss">
 $border-style: 1px solid #e6e6e6;
 .bg-editor {
-	margin-top: 30px;
+	width: 100%;
+	height: 80vh;
+	margin: 30px 0;
 	border-radius: 2px;
-	border: $border-style;
+	background-color: #ffffff;
+	&.only-edit {
+		.editor-html {
+			display: none;
+		}
+		.editor-textarea {
+			width: 100% !important;
+		}
+	}
+	&.only-html {
+		.editor-tools,
+		.editor-textarea {
+			display: none;
+		}
+		.editor-html {
+			width: 100% !important;
+		}
+	}
+	&.expand {
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 99999999;
+		margin-top: 0;
+		height: 100%;
+		.editor-textarea,
+		.editor-html {
+			height: 90vh !important; // 全屏高度
+		}
+	}
 	.editor-tools {
 		display: flex;
 		flex-wrap: wrap;
 		width: 100%;
 		padding: 5px;
-		border-bottom: $border-style;
-		.divider {
-			margin-right: 10px !important;
+		border: $border-style;
+		.divider-l,
+		.divider-r {
 			position: relative;
 			&::after {
 				content: '';
 				position: absolute;
-				top: 10%;
-				right: -6px;
-				height: 80%;
+				top: 15%;
+				height: 70%;
 				border-right: $border-style;
+			}
+		}
+		.divider-r {
+			margin-right: 10px !important;
+			&::after {
+				right: -6px;
+			}
+		}
+		.divider-l {
+			margin-left: 10px !important;
+			&::after {
+				left: -6px;
 			}
 		}
 		.tool-box {
@@ -255,30 +341,36 @@ $border-style: 1px solid #e6e6e6;
 	}
 	.editor-main {
 		display: flex;
+		position: relative;
 		.editor-textarea,
 		.editor-html {
 			width: 50%;
-			height: 70vh;
-			padding: 10px 20px;
+			height: 70vh; // 编辑区高度
+			padding: 10px;
 			box-sizing: content-box;
+			border: $border-style;
 		}
 		.editor-textarea {
 			font-size: 15px;
 			line-height: 20px;
-			position: relative;
-			&::after {
-				content: '';
-				position: absolute;
-				right: 0;
-				top: 0;
-				width: 1px;
-				height: 100%;
-				background: #e2e2e2;
-			}
 		}
-		.editor-html {
-			overflow: scroll;
+		.markdown-body,
+		.textarea {
+			width: 100%;
+			height: 100%;
 		}
+	}
+	.close-html {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		top: 30px;
+		right: 30px;
+		width: 26px;
+		height: 26px;
+		border-radius: 26px;
+		background-color: #cccccc;
 	}
 }
 </style>

@@ -1,4 +1,4 @@
-import { UndoAlt, RedoAlt, ExpandArrowsAlt, Bold, Underline, Italic, Strikethrough, Heading, QuoteLeft, ListOl, ListUl, Minus, Mixer, Code, Link, Image, SquareRootAlt, Subscript, Superscript, FileImage } from '@vicons/fa'
+import { Bold, Underline, Italic, Strikethrough, Heading, QuoteLeft, ListOl, ListUl, Minus, Mixer, Code, Link, Image, SquareRootAlt, Subscript, Superscript, FileImage } from '@vicons/fa'
 
 export const tools = [{
 		icon: h(Bold),

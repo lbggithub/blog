@@ -1,21 +1,20 @@
 <template>
-	<div class="container">
-				<div class="writing-header">
+	<div class="container writing-wrap">
+		<!-- 		<div class="writing-header">
 			<span class="title">{{ form.title || '新文章' }}</span>
 			<div class="btns">
 				<el-button type="warning" @click="submit(2, '保存成功')" :loading="loading">保存草稿</el-button>
-				<el-button type="success">预览</el-button>
 				<el-button type="primary" @click="showSetting = true">发布</el-button>
 				<el-button @click="openAttachment(false)">附件库</el-button>
 			</div>
 		</div>
-		<el-divider />
+		<el-divider /> -->
 		<!-- 标题 -->
-				<el-input v-model="form.title" placeholder="请输入文章标题" maxlength="30" />
+		<!-- 		<el-input v-model="form.title" placeholder="请输入文章标题" maxlength="30" /> -->
 		<!-- 附件 -->
 		<bg-attachment ref="attachmentRef" @select="selected" />
 		<!-- 内容 -->
-		<bg-editor v-model:input="form.content" ref="editorRef" />
+		<bg-editor ref="editorRef" />
 		<!-- 设置 -->
 		<el-drawer v-model="showSetting" title="文章设置" :size="400" direction="rtl">
 			<el-form label-position="top">
@@ -68,11 +67,14 @@ const initForm = {
 let autoTitle = '' // 标题为空时，以当前时间作为标题
 const form = ref({ ...initForm })
 
+const editorRef = ref()
 // 如果url中带有id，获取文章详情，用于编辑
 onLoad(option => {
 	if (option.id) {
 		call('getPostDetail', { id: option.id, fidld: { user_id: false } }).then(res => {
 			form.value = res.data
+			// 插入 markdown 内容
+			editorRef.value.setValue(form.value.content)
 			// 密码解密
 			if (form.value.password) {
 				form.value.decodePassword = decode(form.value.password)
@@ -81,7 +83,6 @@ onLoad(option => {
 	}
 })
 
-const editorRef = ref()
 const loading = ref(false)
 const submit = (status, msg) => {
 	loading.value = true
@@ -95,6 +96,7 @@ const submit = (status, msg) => {
 	}
 	if (editorRef.value && form.value.content) {
 		form.value.html = editorRef.value.getHtml() // 获取 html 内容
+		form.value.content = editorRef.value.getValue() // 获取 markdown 内容
 	}
 	if (status === 1 && !form.value.abstract) {
 		// 提取纯文本，自动生成摘要，草稿状态就不需要了
@@ -150,6 +152,9 @@ const openAttachment = isSelect => {
 </script>
 
 <style lang="scss">
+.writing-wrap {
+	overflow: hidden;
+}
 .writing-header {
 	display: flex;
 	justify-content: space-between;
