@@ -1,6 +1,6 @@
 <template>
 	<div class="container writing-wrap">
-		<!-- 		<div class="writing-header">
+		<div class="writing-header">
 			<span class="title">{{ form.title || '新文章' }}</span>
 			<div class="btns">
 				<el-button type="warning" @click="submit(2, '保存成功')" :loading="loading">保存草稿</el-button>
@@ -8,9 +8,9 @@
 				<el-button @click="openAttachment(false)">附件库</el-button>
 			</div>
 		</div>
-		<el-divider /> -->
+		<el-divider />
 		<!-- 标题 -->
-		<!-- 		<el-input v-model="form.title" placeholder="请输入文章标题" maxlength="30" /> -->
+		<el-input v-model="form.title" placeholder="请输入文章标题" maxlength="30" />
 		<!-- 附件 -->
 		<bg-attachment ref="attachmentRef" @select="selected" />
 		<!-- 内容 -->
