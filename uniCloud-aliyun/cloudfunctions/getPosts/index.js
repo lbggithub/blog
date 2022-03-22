@@ -9,18 +9,15 @@ exports.main = async function(event, context) {
 		total = count.total
 	}
 
-	let where = {}
-	if (event.is_del) {
-		where.is_del = true // 是否获取已经删除的文章
+	let where = {
+		is_del: event.is_del || false
 	}
 	if (event.status) {
 		where.status = event.status // 根据状态获取
 	}
-
 	if (event.category && event.category !== '首页') {
 		where.categorys = event.category // 根据分类获取
 	}
-
 	if (event.label) {
 		where.labels = event.label // 根据标签获取
 	}
