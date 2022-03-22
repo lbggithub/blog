@@ -2,6 +2,7 @@
  * 简单的封装 uniCloud.callFunction
  */
 const API_ERROR = '网络请求异常，请稍后重试'
+const authApi = ['addAttachments', 'addCategory', 'addLabel', 'addPosts', 'delAttachments', 'delCategorys', 'delLabels', 'delPosts', 'resetPwd']
 
 /**
  * @param string name 云函数名称
@@ -9,6 +10,11 @@ const API_ERROR = '网络请求异常，请稍后重试'
  */
 export function call(name = '', data = {}) {
 	return new Promise((resolve, reject) => {
+		if (uni.getStorageSync('userInfo').username !== 'admin' && authApi.indexOf(name) > -1) {
+			toast.error('你没有权限哦～')
+			reject()
+			return
+		}
 		uniCloud.callFunction({
 			name: name,
 			data: data,

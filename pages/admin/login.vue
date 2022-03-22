@@ -22,9 +22,9 @@ onLoad(option => {
 
 const store = useStore()
 
-const loading = ref(true)
+
 const form = ref({
-	username: '', // 账号
+	username: 'test', // 账号
 	password: '' // 密码
 })
 const needRegister = ref(false) // 是否需要注册
@@ -33,15 +33,16 @@ const disabled = computed(() => {
 	return !form.value.username || !form.value.password
 })
 
+const loading = ref(false) // 用于演示网站，注释掉注册逻辑
 // 获取user表中的第一条账号信息，用于判断是否需要注册
-call('getUserName').then(res => {
-	if (res.username) {
-		form.value.username = res.username
-	} else {
-		needRegister.value = true // 无账号，开启注册
-	}
-	loading.value = false
-})
+// call('getUserName').then(res => {
+// 	if (res.username) {
+// 		form.value.username = res.username
+// 	} else {
+// 		needRegister.value = true // 无账号，开启注册
+// 	}
+// 	loading.value = false
+// })
 
 const submit = async () => {
 	if (loading.value) {
