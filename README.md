@@ -1,6 +1,7 @@
 ### 演示地址
 
-#### [https://hrai.online/](https://hrai.online/) `账号：test 密码：123456`
+0. #### 前台：[https://hrai.online](https://hrai.online)
+1. #### 后台：[https://hrai.online/pages/admin/index](https://hrai.online/pages/admin/index) `账号：test 密码：123456`
 
 ### 安装
 
