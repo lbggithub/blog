@@ -57,19 +57,19 @@ import { UndoAlt, RedoAlt, ExpandArrowsAlt, WindowMaximizeRegular, WindowMaximiz
 import markdownIt from 'markdown-it'
 import markdownItSub from 'markdown-it-sub'
 import markdownItSup from 'markdown-it-sup'
-import markdownItMath from 'markdown-it-mathjax3'
 import { tools } from './toolsJson.js'
+import loadJs from './loadJs.js'
 import modal from './modal.vue'
 import toolform from './toolform.vue'
 
 // 初始化 markdown-it
-var md = new markdownIt({
+var md = markdownIt({
 	breaks: true,
 	html: true
 })
+// 引入插件 其他插件按需引入：https://github.com/markdown-it/markdown-it
 md.use(markdownItSub)
 md.use(markdownItSup)
-md.use(markdownItMath)
 
 const expand = ref(false) // 全屏控制
 const onlyShow = ref('') // 只显示编辑区或者 html 区 值：edit / html
@@ -118,11 +118,11 @@ const redo = () => {
 
 // 监听容器滚动，实现同步滚动
 let scrollTop = ref(0)
-const scroll = (e, type) => {
+const scroll = e => {
 	scrollTop.value = e.detail.scrollTop
 }
 
-// 获取 html 内容
+// 转换 markdown 内容
 const compiledMarkdown = computed(() => {
 	return md.render(inputValue.value)
 })

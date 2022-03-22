@@ -12,7 +12,13 @@
 </template>
 
 <script setup>
+import { onLoad } from '@dcloudio/uni-app'
 import { useStore } from '@/stores/index.js'
+
+let from = ''
+onLoad(option => {
+	from = option.from // 从某个页面跳过来的，登陆成功后跳回去
+})
 
 const store = useStore()
 
@@ -54,7 +60,7 @@ const login = () => {
 			uni.setStorageSync('uni_id_token', res.token)
 			uni.setStorageSync('uni_id_token_expired', res.tokenExpired)
 
-			router.reLaunch('admin/index').then(() => {
+			router.reLaunch(from || 'admin/index').then(() => {
 				toast.success('登陆成功')
 			})
 		})

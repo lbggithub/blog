@@ -19,7 +19,7 @@ async function authToken() {
 		if (new Date().getTime() > tokenExpired) {
 			tokenExpired = null
 			uni.reLaunch({
-				url: `/${loginPage}`
+				url: `/${loginPage}?from=${currentPage}`
 			})
 		}
 		// 如果是菜单页，激活样式

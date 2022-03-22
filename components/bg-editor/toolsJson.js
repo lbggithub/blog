@@ -1,4 +1,4 @@
-import { Bold, Underline, Italic, Strikethrough, Heading, QuoteLeft, ListOl, ListUl, Minus, Mixer, Code, Link, Image, SquareRootAlt, Subscript, Superscript, FileImage } from '@vicons/fa'
+import { Bold, Underline, Italic, Strikethrough, Heading, QuoteLeft, ListOl, ListUl, Minus, Mixer, Code, Link, Image, Subscript, Superscript, FileImage } from '@vicons/fa'
 
 export const tools = [{
 		icon: h(Bold),
@@ -88,20 +88,6 @@ export const tools = [{
 		icon: h(FileImage),
 		show: 'images',
 		title: '附件库',
-	},
-	{
-		icon: h(SquareRootAlt),
-		list: [{
-				name: '行内公式',
-				start: '$',
-				end: '$'
-			},
-			{
-				name: '块级公式',
-				start: '$$\n',
-				end: '\n$$'
-			}
-		]
 	},
 	{
 		icon: h(Subscript),

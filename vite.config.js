@@ -14,7 +14,6 @@ export default defineConfig({
 			resolvers: [ElementPlusResolver()],
 			imports: [
 				'vue',
-				'vue-router',
 				{
 					'@/utils/call': ['call'],
 					'@/utils/router': ['router'],
