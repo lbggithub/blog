@@ -22,8 +22,8 @@
 
 <script setup>
 import { onLoad } from '@dcloudio/uni-app'
-import postItem from './components/postItem.vue'
 import { decode } from '@/utils/endeCode.js'
+import postItem from './components/postItem.vue'
 
 // 根据路由判断当前分类
 const category = ref('')

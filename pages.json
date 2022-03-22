@@ -1,4 +1,26 @@
 {
+	"pages": [{
+		"path": "pages/index/index",
+		"style": {
+			"topWindow": false,
+			"leftWindow": false,
+			"navigationStyle": "custom"
+		}
+	}, {
+		"path": "pages/error/404",
+		"style": {
+			"topWindow": false,
+			"leftWindow": false,
+			"navigationStyle": "custom"
+		}
+	}, {
+		"path": "pages/index/detail",
+		"style": {
+			"topWindow": false,
+			"leftWindow": false,
+			"navigationStyle": "custom"
+		}
+	}],
 	"subPackages": [{
 		"root": "pages/admin",
 		"pages": [{
@@ -59,28 +81,6 @@
 			"minWidth": 0
 		}
 	},
-	"pages": [{
-		"path": "pages/index/index",
-		"style": {
-			"topWindow": false,
-			"leftWindow": false,
-			"navigationStyle": "custom"
-		}
-	}, {
-		"path": "pages/error/404",
-		"style": {
-			"topWindow": false,
-			"leftWindow": false,
-			"navigationStyle": "custom"
-		}
-	}, {
-		"path": "pages/index/detail",
-		"style": {
-			"topWindow": false,
-			"leftWindow": false,
-			"navigationStyle": "custom"
-		}
-	}],
 	"rightWindow": {
 		"path": "windows/rightWindow",
 		"style": {
