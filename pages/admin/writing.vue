@@ -94,7 +94,7 @@ const submit = (status, msg) => {
 	} else {
 		form.value.created_date = currentTime // 防止时间为空
 	}
-	if (editorRef.value && form.value.content) {
+	if (editorRef.value) {
 		form.value.html = editorRef.value.getHtml() // 获取 html 内容
 		form.value.content = editorRef.value.getValue() // 获取 markdown 内容
 	}
@@ -127,6 +127,7 @@ const submit = (status, msg) => {
 				// 格式化数据
 				form.value = { ...initForm }
 				autoTitle = ''
+				editorRef.value.setValue('')
 				showSetting.value = false
 			}
 			if (status === 2) {
