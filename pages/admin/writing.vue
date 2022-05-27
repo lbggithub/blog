@@ -95,7 +95,7 @@ const submit = (status, msg) => {
 		form.value.created_date = currentTime // 防止时间为空
 	}
 	if (editorRef.value) {
-		form.value.html = editorRef.value.getHtml() // 获取 html 内容
+		form.value.html = editorRef.value.getHtml() z// 获取 html 内容
 		form.value.content = editorRef.value.getValue() // 获取 markdown 内容
 	}
 	if (status === 1 && !form.value.abstract) {
