@@ -4,10 +4,15 @@ exports.main = async function(event, context) {
 	const dbCmd = db.command
 
 	let total = 0
-	if (event.currentPage === 1) {
-		let count = await db.collection('posts').count()
-		total = count.total
-	}
+	let count = await db.collection('posts')
+	.where({
+		is_del: event.is_del || false,
+		status: event.status,
+		categorys: event.category
+	})
+	.count()
+	total = count.total
+	console.log({total})
 
 	let where = {
 		is_del: event.is_del || false
