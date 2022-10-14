@@ -3,12 +3,6 @@ exports.main = async function(event, context) {
 	const db = uniCloud.database()
 	const dbCmd = db.command
 
-	let total = 0
-	if (event.currentPage === 1) {
-		let count = await db.collection('posts').count()
-		total = count.total
-	}
-
 	let where = {
 		is_del: event.is_del || false
 	}
@@ -31,6 +25,12 @@ exports.main = async function(event, context) {
 		.field(event.fidld)
 		.where(where)
 		.get()
+		
+	let total = 0
+	let count = await db.collection('posts')
+	.where(where)
+	.count()
+	total = count.total
 
 	return { data: { list: res.data, total: total }, code: 0 }
 }
